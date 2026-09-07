@@ -1,0 +1,26 @@
+# Java compiled files
+*.class
+
+# Eclipse generated files
+.settings/
+.classpath
+.project
+
+# Build output
+bin/
+target/
+out/
+
+# IDE files
+.idea/
+*.iml
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
