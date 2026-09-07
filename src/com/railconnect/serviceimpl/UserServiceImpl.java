@@ -2,12 +2,16 @@ package com.railconnect.serviceimpl;
 
 import java.util.List;
 
+import com.railconnect.controller.dao.UserDao;
 import com.railconnect.model.Passenger;
 import com.railconnect.model.User;
 import com.railconnect.service.UserService;
 
 public class UserServiceImpl implements UserService {
 
+	  UserDao dao=new UserDao();
+	
+	
 	@Override
 	public void registerUser(User user) {
 		// TODO Auto-generated method stub
@@ -66,6 +70,17 @@ public class UserServiceImpl implements UserService {
 	public List<String> getBookingHistory(int userId) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public String welcome(String msg) {
+		String newmsg = dao.getnewMessage(msg);
+		if(newmsg.length()>5) {
+			return newmsg;
+		}
+		return null;
+		
+	
 	}
 
 }
