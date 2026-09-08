@@ -1,38 +1,48 @@
 package com.railconnect.model;
 
-
 public class Passenger {
 
     private int passengerId;
-    private int userId;
 
-    private String name;
+    private User user;
+
+    private String firstName;
+
+    private String lastName;
+
     private int age;
-    private String gender;
-    private String mobile;
-    private String email;
-    private String relationship;
 
-    // Default Constructor
+    private String gender;
+
+    private String passengerType;
+
+    private String idProofType;
+
+    private String idProofNumber;
+
     public Passenger() {
     }
 
-    // Parameterized Constructor
-    public Passenger(int passengerId, int userId, String name,
-                     int age, String gender, String mobile,
-                     String email, String relationship) {
+    public Passenger(int passengerId,
+                     User user,
+                     String firstName,
+                     String lastName,
+                     int age,
+                     String gender,
+                     String passengerType,
+                     String idProofType,
+                     String idProofNumber) {
 
         this.passengerId = passengerId;
-        this.userId = userId;
-        this.name = name;
+        this.user = user;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.age = age;
         this.gender = gender;
-        this.mobile = mobile;
-        this.email = email;
-        this.relationship = relationship;
+        this.passengerType = passengerType;
+        this.idProofType = idProofType;
+        this.idProofNumber = idProofNumber;
     }
-
-    // Getters and Setters
 
     public int getPassengerId() {
         return passengerId;
@@ -42,20 +52,28 @@ public class Passenger {
         this.passengerId = passengerId;
     }
 
-    public int getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public int getAge() {
@@ -74,41 +92,42 @@ public class Passenger {
         this.gender = gender;
     }
 
-    public String getMobile() {
-        return mobile;
+    public String getPassengerType() {
+        return passengerType;
     }
 
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
+    public void setPassengerType(String passengerType) {
+        this.passengerType = passengerType;
     }
 
-    public String getEmail() {
-        return email;
+    public String getIdProofType() {
+        return idProofType;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setIdProofType(String idProofType) {
+        this.idProofType = idProofType;
     }
 
-    public String getRelationship() {
-        return relationship;
+    public String getIdProofNumber() {
+        return idProofNumber;
     }
 
-    public void setRelationship(String relationship) {
-        this.relationship = relationship;
+    public void setIdProofNumber(String idProofNumber) {
+        this.idProofNumber = idProofNumber;
     }
 
     @Override
     public String toString() {
         return "Passenger{" +
                 "passengerId=" + passengerId +
-                ", userId=" + userId +
-                ", name='" + name + '\'' +
+                ", user=" + user +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
                 ", age=" + age +
                 ", gender='" + gender + '\'' +
-                ", mobile='" + mobile + '\'' +
-                ", email='" + email + '\'' +
-                ", relationship='" + relationship + '\'' +
+                ", passengerType='" + passengerType + '\'' +
+                ", idProofType='" + idProofType + '\'' +
+                ", idProofNumber='" + idProofNumber + '\'' +
                 '}';
     }
 }

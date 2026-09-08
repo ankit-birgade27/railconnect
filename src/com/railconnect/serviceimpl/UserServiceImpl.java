@@ -2,14 +2,21 @@ package com.railconnect.serviceimpl;
 
 import java.util.List;
 
-import com.railconnect.controller.dao.UserDao;
+import com.railconnect.dao.UserDao;
 import com.railconnect.model.Passenger;
 import com.railconnect.model.User;
 import com.railconnect.service.UserService;
 
 public class UserServiceImpl implements UserService {
 
-	  UserDao dao=new UserDao();
+
+    private UserDao userDao;
+    
+    
+
+    public UserServiceImpl(UserDao userDao) {
+        this.userDao = userDao;
+    }
 	
 	
 	@Override
@@ -72,15 +79,5 @@ public class UserServiceImpl implements UserService {
 		return null;
 	}
 
-	@Override
-	public String welcome(String msg) {
-		String newmsg = dao.getnewMessage(msg);
-		if(newmsg.length()>5) {
-			return newmsg;
-		}
-		return null;
-		
-	
-	}
 
 }

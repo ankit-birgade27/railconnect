@@ -1,105 +1,103 @@
 package com.railconnect.model;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.List;
 
 public class Booking {
 
-    private int bookingId;
-    private int userId;
-    private int passengerId;
+    private String bookingId;
 
-    private String source;
-    private String destination;
-    private String journeyDate;
-    private String seatNumber;
+    private Train train;
 
-    private double fare;
+    private List<Passenger> passengers;
+
+    private Station source;
+
+    private Station destination;
+
+    private LocalDate journeyDate;
+
     private String bookingStatus;
 
-    // Default Constructor
+    private BigDecimal totalFare;
+
+    private PNR pnr;
+
+    private Payment payment;
+
     public Booking() {
     }
 
-    // Parameterized Constructor
-    public Booking(int bookingId, int userId, int passengerId,
-                   String source, String destination,
-                   String journeyDate, String seatNumber,
-                   double fare, String bookingStatus) {
+    public Booking(String bookingId,
+                   Train train,
+                   List<Passenger> passengers,
+                   Station source,
+                   Station destination,
+                   LocalDate journeyDate,
+                   String bookingStatus,
+                   BigDecimal totalFare,
+                   PNR pnr,
+                   Payment payment) {
 
         this.bookingId = bookingId;
-        this.userId = userId;
-        this.passengerId = passengerId;
+        this.train = train;
+        this.passengers = passengers;
         this.source = source;
         this.destination = destination;
         this.journeyDate = journeyDate;
-        this.seatNumber = seatNumber;
-        this.fare = fare;
         this.bookingStatus = bookingStatus;
+        this.totalFare = totalFare;
+        this.pnr = pnr;
+        this.payment = payment;
     }
 
-    // Getters and Setters
-
-    public int getBookingId() {
+    public String getBookingId() {
         return bookingId;
     }
 
-    public void setBookingId(int bookingId) {
+    public void setBookingId(String bookingId) {
         this.bookingId = bookingId;
     }
 
-    public int getUserId() {
-        return userId;
+    public Train getTrain() {
+        return train;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setTrain(Train train) {
+        this.train = train;
     }
 
-    public int getPassengerId() {
-        return passengerId;
+    public List<Passenger> getPassengers() {
+        return passengers;
     }
 
-    public void setPassengerId(int passengerId) {
-        this.passengerId = passengerId;
+    public void setPassengers(List<Passenger> passengers) {
+        this.passengers = passengers;
     }
 
-    public String getSource() {
+    public Station getSource() {
         return source;
     }
 
-    public void setSource(String source) {
+    public void setSource(Station source) {
         this.source = source;
     }
 
-    public String getDestination() {
+    public Station getDestination() {
         return destination;
     }
 
-    public void setDestination(String destination) {
+    public void setDestination(Station destination) {
         this.destination = destination;
     }
 
-    public String getJourneyDate() {
+    public LocalDate getJourneyDate() {
         return journeyDate;
     }
 
-    public void setJourneyDate(String journeyDate) {
+    public void setJourneyDate(LocalDate journeyDate) {
         this.journeyDate = journeyDate;
-    }
-
-    public String getSeatNumber() {
-        return seatNumber;
-    }
-
-    public void setSeatNumber(String seatNumber) {
-        this.seatNumber = seatNumber;
-    }
-
-    public double getFare() {
-        return fare;
-    }
-
-    public void setFare(double fare) {
-        this.fare = fare;
     }
 
     public String getBookingStatus() {
@@ -110,18 +108,43 @@ public class Booking {
         this.bookingStatus = bookingStatus;
     }
 
+    public BigDecimal getTotalFare() {
+        return totalFare;
+    }
+
+    public void setTotalFare(BigDecimal totalFare) {
+        this.totalFare = totalFare;
+    }
+
+    public PNR getPnr() {
+        return pnr;
+    }
+
+    public void setPnr(PNR pnr) {
+        this.pnr = pnr;
+    }
+
+    public Payment getPayment() {
+        return payment;
+    }
+
+    public void setPayment(Payment payment) {
+        this.payment = payment;
+    }
+
     @Override
     public String toString() {
         return "Booking{" +
-                "bookingId=" + bookingId +
-                ", userId=" + userId +
-                ", passengerId=" + passengerId +
-                ", source='" + source + '\'' +
-                ", destination='" + destination + '\'' +
-                ", journeyDate='" + journeyDate + '\'' +
-                ", seatNumber='" + seatNumber + '\'' +
-                ", fare=" + fare +
+                "bookingId='" + bookingId + '\'' +
+                ", train=" + train +
+                ", passengers=" + passengers +
+                ", source=" + source +
+                ", destination=" + destination +
+                ", journeyDate=" + journeyDate +
                 ", bookingStatus='" + bookingStatus + '\'' +
+                ", totalFare=" + totalFare +
+                ", pnr=" + pnr +
+                ", payment=" + payment +
                 '}';
     }
 }
