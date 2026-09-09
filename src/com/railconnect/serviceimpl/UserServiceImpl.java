@@ -21,7 +21,10 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	public void registerUser(User user) {
-		// TODO Auto-generated method stub
+	
+		
+		
+		
 		
 	}
 

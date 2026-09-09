@@ -110,6 +110,8 @@ public class UserController {
 
         System.out.print("Enter Password: ");
         user.setPassword(scanner.nextLine());
+        
+        
 
         // Call proper method from service
     }
