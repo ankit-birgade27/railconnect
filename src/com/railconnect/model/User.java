@@ -1,28 +1,34 @@
 package com.railconnect.model;
 
-
-
 public class User {
 
     private int userId;
-    private String username;
-    private String email;
-    private String mobile;
-    private String password;
-    private String role;
-    private boolean accountLocked;
-    private int loginAttempts;
-    private String lastLogin;
 
-    // Default Constructor
+    private String username;
+
+    private String email;
+
+    private String mobile;
+
+    private String password;
+
+    private String role;
+
+    private boolean accountLocked;
+
+    private int loginAttempts;
+
     public User() {
     }
 
-    // Parameterized Constructor
-    public User(int userId, String username, String email,
-                String mobile, String password, String role,
-                boolean accountLocked, int loginAttempts,
-                String lastLogin) {
+    public User(int userId,
+                String username,
+                String email,
+                String mobile,
+                String password,
+                String role,
+                boolean accountLocked,
+                int loginAttempts) {
 
         this.userId = userId;
         this.username = username;
@@ -32,10 +38,7 @@ public class User {
         this.role = role;
         this.accountLocked = accountLocked;
         this.loginAttempts = loginAttempts;
-        this.lastLogin = lastLogin;
     }
-
-    // Getters and Setters
 
     public int getUserId() {
         return userId;
@@ -101,14 +104,6 @@ public class User {
         this.loginAttempts = loginAttempts;
     }
 
-    public String getLastLogin() {
-        return lastLogin;
-    }
-
-    public void setLastLogin(String lastLogin) {
-        this.lastLogin = lastLogin;
-    }
-
     @Override
     public String toString() {
         return "User{" +
@@ -119,7 +114,6 @@ public class User {
                 ", role='" + role + '\'' +
                 ", accountLocked=" + accountLocked +
                 ", loginAttempts=" + loginAttempts +
-                ", lastLogin='" + lastLogin + '\'' +
                 '}';
     }
 }

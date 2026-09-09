@@ -1,7 +1,6 @@
 package com.railconnect.test;
 
-import com.railconnect.controller.dao.UserDao;
-import com.railconnect.controller.dao.UserDaoImpl;
+import com.railconnect.dao.UserDao;
 import com.railconnect.exception.DuplicateEmailException;
 import com.railconnect.exception.DuplicateMobileException;
 import com.railconnect.exception.DuplicateUsernameException;
@@ -21,7 +20,7 @@ public class UserRegistrationTest {
     private UserService service;
 
     public void setUp() {
-        dao = new UserDaoImpl();
+        dao = new UserDao();
         dao.clear(); // Reset in-memory database for isolation
         service = new UserServiceImpl(dao);
     }

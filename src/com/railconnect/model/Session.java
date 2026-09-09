@@ -1,40 +1,34 @@
 package com.railconnect.model;
 
-
+import java.time.LocalDateTime;
 
 public class Session {
 
     private String sessionId;
-    private int userId;
-    private String username;
-    private String role;
 
-    private String loginTime;
-    private String lastActivityTime;
+    private User user;
+
+    private LocalDateTime loginTime;
+
+    private LocalDateTime logoutTime;
 
     private boolean active;
 
-    // Default Constructor
     public Session() {
     }
 
-    // Parameterized Constructor
-    public Session(String sessionId, int userId,
-                   String username, String role,
-                   String loginTime,
-                   String lastActivityTime,
+    public Session(String sessionId,
+                   User user,
+                   LocalDateTime loginTime,
+                   LocalDateTime logoutTime,
                    boolean active) {
 
         this.sessionId = sessionId;
-        this.userId = userId;
-        this.username = username;
-        this.role = role;
+        this.user = user;
         this.loginTime = loginTime;
-        this.lastActivityTime = lastActivityTime;
+        this.logoutTime = logoutTime;
         this.active = active;
     }
-
-    // Getters and Setters
 
     public String getSessionId() {
         return sessionId;
@@ -44,44 +38,28 @@ public class Session {
         this.sessionId = sessionId;
     }
 
-    public int getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    public String getLoginTime() {
+    public LocalDateTime getLoginTime() {
         return loginTime;
     }
 
-    public void setLoginTime(String loginTime) {
+    public void setLoginTime(LocalDateTime loginTime) {
         this.loginTime = loginTime;
     }
 
-    public String getLastActivityTime() {
-        return lastActivityTime;
+    public LocalDateTime getLogoutTime() {
+        return logoutTime;
     }
 
-    public void setLastActivityTime(String lastActivityTime) {
-        this.lastActivityTime = lastActivityTime;
+    public void setLogoutTime(LocalDateTime logoutTime) {
+        this.logoutTime = logoutTime;
     }
 
     public boolean isActive() {
@@ -96,11 +74,9 @@ public class Session {
     public String toString() {
         return "Session{" +
                 "sessionId='" + sessionId + '\'' +
-                ", userId=" + userId +
-                ", username='" + username + '\'' +
-                ", role='" + role + '\'' +
-                ", loginTime='" + loginTime + '\'' +
-                ", lastActivityTime='" + lastActivityTime + '\'' +
+                ", user=" + user +
+                ", loginTime=" + loginTime +
+                ", logoutTime=" + logoutTime +
                 ", active=" + active +
                 '}';
     }
