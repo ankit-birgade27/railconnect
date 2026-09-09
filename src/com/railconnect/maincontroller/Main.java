@@ -73,7 +73,7 @@ public class Main {
         // ==========================================
 
         UserService userService =
-                new UserServiceImpl(userDao);
+                new UserServiceImpl(userDao, null);
 
         TrainService trainService =
                 new TrainServiceImpl(trainDao);
