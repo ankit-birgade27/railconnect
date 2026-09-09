@@ -9,5 +9,13 @@ public class UserDao {
 	
 	
 	  private List<User> users = new ArrayList<>();
+	  
+	  
+	public  void registerUser(User user) {
+			  
+	  }
+	  
+	  
+	  
 
 }
