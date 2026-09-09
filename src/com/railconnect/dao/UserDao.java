@@ -9,5 +9,14 @@ public class UserDao {
 	
 	
 	  private List<User> users = new ArrayList<>();
-
+	  
+	  // to find user by their user id 
+	  public User findById(int userId) {
+		  for(User u : users) {
+			  if(u.getUserId() == userId) {
+				  return u;
+			  }
+		  }
+		  return null;
+	  }
 }
