@@ -15,7 +15,33 @@ public class UserDao {
 			  
 	  }
 	  
-	  
+	 public User findById(int userId) {
+
+	        for (User user : users) {
+
+	            if (user.getUserId() == userId) {
+
+	                return user;
+	            }
+	        }
+
+	        return null;
+	    }
+
+
+	   
+	    public void updateUser(User user) {
+
+	        for (int i = 0; i < users.size(); i++) {
+
+	            if (users.get(i).getUserId() == user.getUserId()) {
+
+	                users.set(i, user);
+
+	                return;
+	            }
+	        }
+	    }  
 	  
 
 }
