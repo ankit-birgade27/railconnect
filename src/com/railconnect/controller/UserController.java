@@ -154,7 +154,8 @@ public class UserController {
         System.out.print("Enter User ID: ");
         int userId = scanner.nextInt();
         scanner.nextLine();
-        // Handled by Student 2
+     
+       
     }
 
     // 3. Update Profile
@@ -282,110 +283,5 @@ public class UserController {
         // Handled by Student 5
     }
 
-    public static void main(String[] args) {
-        UserController controller = new UserController();
-
-        System.out.println("=================================================================");
-        System.out.println("      RailConnect - Student 1: User Registration Demonstration     ");
-        System.out.println("=================================================================\n");
-
-        // 1. Successful Registration
-        System.out.println("--- Test 1: Successful User Registration ---");
-        User user1 = new User();
-        user1.setUsername("ankit_b");
-        user1.setEmail("ankit@gmail.com");
-        user1.setMobile("9876543210");
-        user1.setPassword("Secret@123");
-        controller.registerUser(user1);
-        System.out.println();
-
-        // 2. Second Successful Registration (Unique User ID generation)
-        System.out.println("--- Test 2: Second User Registration (Unique ID check) ---");
-        User user2 = new User();
-        user2.setUsername("rohit_sharma");
-        user2.setEmail("rohit@railconnect.com");
-        user2.setMobile("9876543211");
-        user2.setPassword("RohitPass456");
-        controller.registerUser(user2);
-        System.out.println();
-
-        // 3. Null User Check
-        System.out.println("--- Test 3: Null User Validation ---");
-        controller.registerUser(null);
-        System.out.println();
-
-        // 4. Invalid Username (< 3 characters)
-        System.out.println("--- Test 4: Invalid Username (< 3 chars) ---");
-        User invalidUsernameUser = new User();
-        invalidUsernameUser.setUsername("ab");
-        invalidUsernameUser.setEmail("valid@email.com");
-        invalidUsernameUser.setMobile("9876543212");
-        invalidUsernameUser.setPassword("ValidPass123");
-        controller.registerUser(invalidUsernameUser);
-        System.out.println();
-
-        // 5. Invalid Email Format
-        System.out.println("--- Test 5: Invalid Email Format ---");
-        User invalidEmailUser = new User();
-        invalidEmailUser.setUsername("valid_user");
-        invalidEmailUser.setEmail("ankitgmail.com");
-        invalidEmailUser.setMobile("9876543213");
-        invalidEmailUser.setPassword("ValidPass123");
-        controller.registerUser(invalidEmailUser);
-        System.out.println();
-
-        // 6. Invalid Mobile Number (< 10 digits)
-        System.out.println("--- Test 6: Invalid Mobile Number ---");
-        User invalidMobileUser = new User();
-        invalidMobileUser.setUsername("valid_user2");
-        invalidMobileUser.setEmail("valid2@email.com");
-        invalidMobileUser.setMobile("98765");
-        invalidMobileUser.setPassword("ValidPass123");
-        controller.registerUser(invalidMobileUser);
-        System.out.println();
-
-        // 7. Invalid Password (< 6 characters)
-        System.out.println("--- Test 7: Invalid Password (< 6 chars) ---");
-        User invalidPasswordUser = new User();
-        invalidPasswordUser.setUsername("valid_user3");
-        invalidPasswordUser.setEmail("valid3@email.com");
-        invalidPasswordUser.setMobile("9876543214");
-        invalidPasswordUser.setPassword("123");
-        controller.registerUser(invalidPasswordUser);
-        System.out.println();
-
-        // 8. Duplicate Username
-        System.out.println("--- Test 8: Duplicate Username Check ---");
-        User duplicateUsernameUser = new User();
-        duplicateUsernameUser.setUsername("ankit_b");
-        duplicateUsernameUser.setEmail("different@gmail.com");
-        duplicateUsernameUser.setMobile("9876543215");
-        duplicateUsernameUser.setPassword("password123");
-        controller.registerUser(duplicateUsernameUser);
-        System.out.println();
-
-        // 9. Duplicate Email
-        System.out.println("--- Test 9: Duplicate Email Check ---");
-        User duplicateEmailUser = new User();
-        duplicateEmailUser.setUsername("new_user");
-        duplicateEmailUser.setEmail("ankit@gmail.com");
-        duplicateEmailUser.setMobile("9876543216");
-        duplicateEmailUser.setPassword("password123");
-        controller.registerUser(duplicateEmailUser);
-        System.out.println();
-
-        // 10. Duplicate Mobile
-        System.out.println("--- Test 10: Duplicate Mobile Check ---");
-        User duplicateMobileUser = new User();
-        duplicateMobileUser.setUsername("another_user");
-        duplicateMobileUser.setEmail("another@gmail.com");
-        duplicateMobileUser.setMobile("9876543210");
-        duplicateMobileUser.setPassword("password123");
-        controller.registerUser(duplicateMobileUser);
-        System.out.println();
-
-        System.out.println("=================================================================");
-        System.out.println("                Demonstration Completed Successfully             ");
-        System.out.println("=================================================================");
-    }
+   
 }
