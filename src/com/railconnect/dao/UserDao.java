@@ -30,5 +30,13 @@ public class UserDao {
 		  return null;
 	  }
 	  
-	  
+	  // to update password using userId
+	  public void updatePassword(int userId, String newPassword) {
+		  for(User u : users) {
+			  if(u.getUserId() == userId) {
+				  u.setPassword(newPassword);
+				  return;
+			  }
+		  }
+	  }
 }
