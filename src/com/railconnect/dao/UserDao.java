@@ -19,4 +19,16 @@ public class UserDao {
 		  }
 		  return null;
 	  }
+	  
+	  // to find user by their email
+	  public User findByEmail(String email) {
+		  for(User u : users) {
+			  if(u.getEmail().equalsIgnoreCase(email)) {
+				  return u;
+			  }
+		  }
+		  return null;
+	  }
+	  
+	  
 }
