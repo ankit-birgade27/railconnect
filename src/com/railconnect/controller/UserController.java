@@ -204,6 +204,12 @@ public class UserController {
         passenger.setIdProofNumber(scanner.nextLine());
 
         // Call proper method from service
+        try {
+            userService.addPassenger(passenger);
+            System.out.println("Passenger added successfully!");
+        } catch (Exception e) {
+            System.err.println("Error adding passenger: " + e.getMessage());
+        }
     }
 
     // 7. Update Passenger
@@ -238,6 +244,12 @@ public class UserController {
         passenger.setIdProofNumber(scanner.nextLine());
 
         // Call proper method from service
+        try {
+        	userService.updatePassenger(passenger);
+        	System.out.println("Passenger updated successfully");
+        }catch(Exception e) {
+        	System.out.println("Error in updating."+e.getMessage());
+        }
     }
 
     // 8. Delete Passenger
@@ -248,6 +260,12 @@ public class UserController {
         scanner.nextLine();
 
         // Call proper method from service
+        try {
+            userService.deletePassenger(passengerId);
+            System.out.println("Passenger deleted successfully!");
+        } catch (Exception e) {
+            System.err.println("Error deleting passenger: " + e.getMessage());
+        }
     }
 
     // 9. Get Passengers
