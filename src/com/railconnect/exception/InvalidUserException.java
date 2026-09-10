@@ -1,7 +1,12 @@
 package com.railconnect.exception;
 
-public class InvalidUserException extends RuntimeException{
-	public InvalidUserException(String msg) {
-		super(msg);
-	}
+public class InvalidUserException extends RuntimeException {
+
+    public InvalidUserException(String message) {
+        super(message);
+    }
+
+    public InvalidUserException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }

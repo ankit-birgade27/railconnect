@@ -1,7 +1,12 @@
 package com.railconnect.exception;
 
-public class InvalidPasswordException extends RuntimeException{
-	public InvalidPasswordException(String msg) {
-		super(msg);
-	}
+public class InvalidPasswordException extends RuntimeException {
+
+    public InvalidPasswordException(String message) {
+        super(message);
+    }
+
+    public InvalidPasswordException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }
