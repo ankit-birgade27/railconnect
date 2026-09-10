@@ -25,6 +25,14 @@ public class AuthenticationDao {
 		}
 	}
 	
+	public void updateAccountStatus(int userId, boolean isLocked) {
+	    User user = findById(userId);
+
+	    if (user != null) {
+	        user.setAccountLocked(isLocked);
+	    }
+	}
+	
 	public User findById(int userId) {
 		List<User> users = DataStore.getUsers();
 		for(User user: users) {

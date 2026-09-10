@@ -1,6 +1,9 @@
 package com.railconnect.serviceimpl;
 
 import com.railconnect.dao.AuthenticationDao;
+import com.railconnect.exception.AccountLockedException;
+import com.railconnect.exception.InvalidCredentialsException;
+import com.railconnect.exception.UserNotFoundException;
 import com.railconnect.model.User;
 import com.railconnect.service.AuthenticationService;
 
@@ -14,8 +17,27 @@ public class AuthenticationServiceImpl  implements AuthenticationService{
 
 	@Override
 	public User login(String username, String password) {
-		// TODO Auto-generated method stub
-		return null;
+		User user = authenticationDao.findByUsername(username);
+		if(user == null) {
+			throw new UserNotFoundException("User not found");
+		}
+		
+		if(user.isAccountLocked()) {
+			throw new AccountLockedException("Your account name:"+ username+ " is locked");
+		}
+		
+		if(!user.getPassword().equals(password)) {
+			int attempts = user.getLoginAttempts();
+			attempts = attempts + 1;
+			authenticationDao.updateLoginAttempts(user.getUserId(), attempts);
+			if(attempts >=3) {
+				authenticationDao.updateAccountStatus(user.getUserId(), true);
+			}
+			throw new InvalidCredentialsException("Wrong Password");
+		}
+		
+		authenticationDao.updateLoginAttempts(user.getUserId(), 0);
+		return user;
 	}
 
 	@Override
@@ -54,7 +76,7 @@ public class AuthenticationServiceImpl  implements AuthenticationService{
 	@Override
 	public boolean validatePassword(String password) {
 		
-		if(password == null || password.isBlank()) {
+		if(password == null || password.isBlank() || password.length() > 8) {
 			return false;
 		}
 		
@@ -82,8 +104,12 @@ public class AuthenticationServiceImpl  implements AuthenticationService{
 
 	@Override
 	public boolean isAccountLocked(int userId) {
-		// TODO Auto-generated method stub
-		return false;
+		User user = authenticationDao.findById(userId);
+		if(user == null) {
+			throw new UserNotFoundException("User not found");
+		}
+		
+		return user.isAccountLocked();
 	}
 
 	@Override
