@@ -1,9 +1,10 @@
 package com.railconnect.serviceimpl;
 
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.lang.Exception;
-
+import com.railconnect.exception.InvalidPassengerException;
+import com.railconnect.exception.PassengerNotFoundException;
+import com.railconnect.exception.UnauthorizedAccessException;
+import com.railconnect.exception.UserNotFoundException;
 
 import com.railconnect.dao.UserDao;
 import com.railconnect.model.Passenger;
@@ -52,97 +53,167 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void addPassenger(Passenger passenger) {
-		
-		//checks passenger is null
-		if (passenger == null) {
-			throw new IllegalArgumentException("Passenger cannot be null");
-		}
-		
-		//checks user is null
-		if(passenger.getUser()==null) {
-			throw new IllegalArgumentException("user cannot be null");
-		}
-		
-		//get userId from user
-	    int userId=passenger.getUser().getUserId();
-	 
-		if( userDao.findById(userId)==null) {
-			throw new NoSuchElementException("User not found with ID: " + userId);
-		}
-		
-		//validation checks
-		if (passenger.getFirstName() == null ) {
-	        throw new IllegalArgumentException("Passenger name cannot be empty");
-	    }
-		if (passenger.getAge()<=0 ) {
-	        throw new IllegalArgumentException("Passenger age is not valid");
-	    }
-		if (passenger.getGender() == null ) {
-	        throw new IllegalArgumentException("Passenger gender cannot be empty");
-	    }
-		
-		if (passenger.getPassengerType() == null ) {
-	        throw new IllegalArgumentException("Passengertype cannot be empty");
-	    }
-		if (passenger.getIdProofNumber() == null ) {
-	        throw new IllegalArgumentException("Passenger IdProofNumber cannot be null");
-	    }
-		if (passenger.getIdProofType() == null ) {
-	        throw new IllegalArgumentException("Passenger IdProofType cannot be null");
-	    }
-		
-		userDao.savePassenger(passenger);
+	public void addPassenger(Passenger passenger) 
+		throws UserNotFoundException, InvalidPassengerException {
+
+		  if (passenger == null) {
+		    throw new InvalidPassengerException("Passenger cannot be null");
+		    }
+
+		  if (passenger.getPassengerId() <= 0) {
+			  throw new InvalidPassengerException("Invalid passenger ID");
+			  }
+
+		  if (passenger.getUser() == null) {
+			  throw new InvalidPassengerException("User cannot be null");
+			  }
+		  
+		  int userId = passenger.getUser().getUserId();
+
+		  if (userDao.findById(userId) == null) {
+			  throw new UserNotFoundException("User not found with ID: " + userId);
+			  }
+                
+		  if (passenger.getFirstName() == null ||
+				  passenger.getFirstName().trim().isEmpty()) {
+              throw new InvalidPassengerException( "First name cannot be empty");
+		  }
+
+		  if (passenger.getLastName() == null ||
+				 passenger.getLastName().trim().isEmpty()) {
+			  throw new InvalidPassengerException("Last name cannot be empty");
+			  }
+
+		  if (passenger.getAge() <= 0) {
+			  throw new InvalidPassengerException("Age must be greater than 0");
+			  }
+		            
+		  if (passenger.getGender() == null ||
+				  passenger.getGender().trim().isEmpty()) {
+			  throw new InvalidPassengerException("Gender cannot be empty");
+		                }
+
+		  if (passenger.getPassengerType() == null ||
+				  passenger.getPassengerType().trim().isEmpty()) {
+			  throw new InvalidPassengerException("Passenger type cannot be empty");
+			  }
+		                
+		  if (passenger.getIdProofType() == null ||
+				  passenger.getIdProofType().trim().isEmpty()) {
+			  throw new InvalidPassengerException("ID proof type cannot be empty");
+			  }
+
+		  if (passenger.getIdProofNumber() == null ||
+				  passenger.getIdProofNumber().trim().isEmpty()) {
+			  throw new InvalidPassengerException("ID proof number cannot be empty");
+		                    }
+
+		  userDao.savePassenger(passenger);
+
+		   System.out.println("Passenger added successfully.");
+		   
+
 	}
 
 	@Override
-	public void updatePassenger(Passenger passenger) {
+	public void updatePassenger(Passenger passenger)  
+			throws PassengerNotFoundException,  InvalidPassengerException,
+			UnauthorizedAccessException {
 
 		if (passenger == null) {
-	        throw new IllegalArgumentException("Passenger cannot be null");
-	    }
+		throw new InvalidPassengerException("Passenger cannot be null");
+		}
+		
+		if (passenger.getPassengerId() <= 0) {
+		throw new InvalidPassengerException("Invalid passenger ID");
+		}
+		
+		Passenger existingPassenger =userDao.findPassengerById(passenger.getPassengerId());
+		
+		if (existingPassenger == null) {
+		throw new PassengerNotFoundException("Passenger not found with ID: "
+		     + passenger.getPassengerId());
+		}
+		
+		if (passenger.getUser() == null) {
+		throw new UnauthorizedAccessException("User information is required");
+		}
+		
+		if (existingPassenger.getUser() == null) {
+		throw new UnauthorizedAccessException("Passenger has no associated user");
+		}
+		
+		if (existingPassenger.getUser().getUserId()
+		 != passenger.getUser().getUserId()) {
+		
+		throw new UnauthorizedAccessException("You are not authorized to update this passenger");
+		}
+		
+		if (passenger.getFirstName() == null ||
+		passenger.getFirstName().trim().isEmpty()) {
+		
+		throw new InvalidPassengerException("First name cannot be empty");
+		}
+		
+		if (passenger.getLastName() == null ||
+		passenger.getLastName().trim().isEmpty()) {
+		
+		throw new InvalidPassengerException("Last name cannot be empty");
+		}
+		
+		if (passenger.getAge() <= 0) {
+		throw new InvalidPassengerException("Age must be greater than 0");
+		}
+		
+		if (passenger.getGender() == null ||
+		passenger.getGender().trim().isEmpty()) {
+		
+		throw new InvalidPassengerException("Gender cannot be empty");
+		}
+		
+		if (passenger.getPassengerType() == null ||
+		passenger.getPassengerType().trim().isEmpty()) {
+		
+		throw new InvalidPassengerException("Passenger type cannot be empty");
+		}
+		
+		if (passenger.getIdProofType() == null ||
+		passenger.getIdProofType().trim().isEmpty()) {
+		
+		throw new InvalidPassengerException("ID proof type cannot be empty");
+		}
+		
+		if (passenger.getIdProofNumber() == null ||
+		passenger.getIdProofNumber().trim().isEmpty()) {
+		
+		throw new InvalidPassengerException("ID proof number cannot be empty");
+		}
 
-	   
-	    int passengerId = passenger.getPassengerId(); // Adjust method name if it's getId()
-	    if (passengerId <= 0) {
-	        throw new IllegalArgumentException("Invalid passenger ID provided");
-	    }
-
-	   
-	    Passenger existingPassenger = userDao.findPassengerById(passengerId);
-	    if (existingPassenger == null) {
-	        throw new java.util.NoSuchElementException("Passenger not found with ID: " + passengerId);
-	    }
-
-
-	    if (passenger.getFirstName() == null) {
-	        throw new IllegalArgumentException("Passenger name cannot be empty");
-	    }
-	    
-	    if (passenger.getAge() <= 0 || passenger.getAge() > 100) {
-	        throw new IllegalArgumentException("Passenger age must be valid");
-	    }
 
 	    // Update the passenger using UserDao
 	    userDao.updatePassenger(passenger);
+	    
+	    System.out.println("Passenger updaded successfully");
 		
 	}
 
 	@Override
-	public void deletePassenger(int passengerId) {
-		
-		 if (passengerId <= 0) {
-		        throw new IllegalArgumentException("Invalid passenger ID provided");
-		    }
-		 
-		 Passenger existingPassenger = userDao.findPassengerById(passengerId);
-		    if (existingPassenger == null) {
-		        throw new java.util.NoSuchElementException("Passenger not found with ID: " + passengerId);
-		    }
-     
-		    userDao.deletePassenger(passengerId);
+	public void deletePassenger(int passengerId)  
+			throws PassengerNotFoundException,UnauthorizedAccessException {
 
-		
+		if (passengerId <= 0) {
+			throw new PassengerNotFoundException("Invalid passenger ID");
+			}
+
+		Passenger passenger =userDao.findPassengerById(passengerId);
+
+		if (passenger == null) {
+			throw new PassengerNotFoundException("Passenger not found with ID: " + passengerId);
+			}
+
+		userDao.deletePassenger(passengerId);
+
+		System.out.println("Passenger deleted successfully");
 	}
 
 	@Override

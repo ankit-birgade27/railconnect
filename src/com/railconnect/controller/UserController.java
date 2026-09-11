@@ -2,6 +2,7 @@ package com.railconnect.controller;
 
 
 import java.util.Scanner;
+import com.railconnect.exception.*;
 
 import com.railconnect.model.Passenger;
 import com.railconnect.model.User;
@@ -203,12 +204,12 @@ public class UserController {
         System.out.print("Enter ID Proof Number: ");
         passenger.setIdProofNumber(scanner.nextLine());
 
-        // Call proper method from service
         try {
             userService.addPassenger(passenger);
-            System.out.println("Passenger added successfully!");
-        } catch (Exception e) {
-            System.err.println("Error adding passenger: " + e.getMessage());
+        } catch (UserNotFoundException e) {
+            System.out.println(e.getMessage());
+        } catch (InvalidPassengerException e) {
+            System.out.println(e.getMessage());
         }
     }
 
@@ -245,10 +246,13 @@ public class UserController {
 
         // Call proper method from service
         try {
-        	userService.updatePassenger(passenger);
-        	System.out.println("Passenger updated successfully");
-        }catch(Exception e) {
-        	System.out.println("Error in updating."+e.getMessage());
+            userService.updatePassenger(passenger);
+        } catch (PassengerNotFoundException e) {
+            System.out.println(e.getMessage());
+        } catch (InvalidPassengerException e) {
+            System.out.println(e.getMessage());
+        } catch (UnauthorizedAccessException e) {
+            System.out.println(e.getMessage());
         }
     }
 
@@ -262,9 +266,10 @@ public class UserController {
         // Call proper method from service
         try {
             userService.deletePassenger(passengerId);
-            System.out.println("Passenger deleted successfully!");
-        } catch (Exception e) {
-            System.err.println("Error deleting passenger: " + e.getMessage());
+        } catch (PassengerNotFoundException e) {
+            System.out.println(e.getMessage());
+        } catch (UnauthorizedAccessException e) {
+            System.out.println(e.getMessage());
         }
     }
 
