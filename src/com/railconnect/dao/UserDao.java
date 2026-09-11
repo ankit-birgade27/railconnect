@@ -76,6 +76,16 @@ public class UserDao {
         }
         return null;
     }
+    
+    // to update the old password
+    public synchronized void updatePassword(int userId, String newPassword) {
+        for (User u : users) {
+            if (u.getUserId() == userId) {
+                u.setPassword(newPassword);
+                return;
+            }
+        }
+    }
 
     public synchronized List<User> findAllUsers() {
         return Collections.unmodifiableList(new ArrayList<>(users));

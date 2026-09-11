@@ -187,14 +187,34 @@ public class UserController {
 
         System.out.print("Enter New Password: ");
         String newPassword = scanner.nextLine();
-        // Handled by Student 3
+        try {
+
+            userService.changePassword(
+                    userId,
+                    oldPassword,
+                    newPassword
+            );
+
+        } catch (Exception e) {
+
+            System.out.println("Password Change Error: "
+                    + e.getMessage());
+        }
     }
 
     // 5. Forgot Password
     private void forgotPassword() {
         System.out.print("Enter Email: ");
         String email = scanner.nextLine();
-        // Handled by Student 3
+        try {
+
+            userService.forgotPassword(email);
+
+        } catch (Exception e) {
+
+            System.out.println("Password Recovery Error: "
+                    + e.getMessage());
+        }
     }
 
     // 6. Add Passenger
