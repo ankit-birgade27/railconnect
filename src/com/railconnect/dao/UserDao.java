@@ -6,15 +6,44 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.railconnect.model.User;
+import com.railconnect.storage.DataStore;
 
 public class UserDao {
 
-    private static final List<User> users = new ArrayList<>();
-    private static final AtomicInteger idGenerator = new AtomicInteger(1001);
+    private final List<User> users = DataStore.getUsers();
 
-    public void registerUser(User user) {
-        saveUser(user);
-    }
+
+	
+	
+	 
+	  
+	  
+	public  void registerUser(User user) {
+			  
+	  }
+	  
+	
+
+
+	   
+	    public void updateUser(User user) {
+
+	        for (int i = 0; i < users.size(); i++) {
+
+	            if (users.get(i).getUserId() == user.getUserId()) {
+
+	                users.set(i, user);
+
+	                return;
+	            }
+	        }
+	    }  
+	  
+
+
+
+
+    private static final AtomicInteger idGenerator = new AtomicInteger(1001);
 
     public synchronized void saveUser(User user) {
         if (user == null) {
@@ -68,6 +97,7 @@ public class UserDao {
         return null;
     }
 
+
     public synchronized User findById(int userId) {
         for (User u : users) {
             if (u.getUserId() == userId) {
@@ -87,16 +117,15 @@ public class UserDao {
         }
     }
 
+
+  
+
     public synchronized List<User> findAllUsers() {
         return Collections.unmodifiableList(new ArrayList<>(users));
     }
 
     public int generateUniqueUserId() {
         return idGenerator.getAndIncrement();
-    }
-
-    public String getnewMessage(String msg) {
-        return msg;
     }
 
     public synchronized void clear() {

@@ -1,3 +1,4 @@
+
 package com.railconnect.serviceimpl;
 
 import java.util.List;
@@ -20,55 +21,21 @@ public class UserServiceImpl implements UserService {
 
     private final UserDao dao;
 
-    private static final Pattern EMAIL_PATTERN = Pattern.compile(
-            "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$"
-    );
-
-    private static final Pattern MOBILE_PATTERN = Pattern.compile(
-            "^[0-9]{10}$"
-    );
-
-    public UserServiceImpl() {
-        this.dao = new UserDao();
-    }
+    private UserDao userDao;
 
     public UserServiceImpl(UserDao dao) {
         this.dao = dao;
+
     }
 
-    @Override
-    public boolean validateUsername(String username) {
-        if (username == null) {
-            return false;
-        }
-        String trimmed = username.trim();
-        return trimmed.length() >= 3;
-    }
 
-    @Override
-    public boolean validateEmail(String email) {
-        if (email == null) {
-            return false;
-        }
-        return EMAIL_PATTERN.matcher(email.trim()).matches();
-    }
 
-    public boolean validateMobile(String mobile) {
-        if (mobile == null) {
-            return false;
-        }
-        return MOBILE_PATTERN.matcher(mobile.trim()).matches();
-    }
 
-    public boolean validatePassword(String password) {
-        if (password == null) {
-            return false;
-        }
-        return password.length() >= 8;
-    }
+   
 
     @Override
     public void registerUser(User user) {
+
         // Step 1: Check whether User object is null
         if (user == null) {
             throw new InvalidUserException("User object cannot be null.");
@@ -76,37 +43,44 @@ public class UserServiceImpl implements UserService {
 
         // Step 2: Validate username
         if (!validateUsername(user.getUsername())) {
-            throw new InvalidUserException("Invalid username. Username is required, must not be blank, and must have at least 3 characters.");
+            throw new InvalidUserException(
+                    "Invalid username. Username is required, must not be blank, and must have at least 3 characters.");
         }
 
         // Step 3: Validate email
         if (!validateEmail(user.getEmail())) {
-            throw new InvalidUserException("Invalid email format. Please provide a valid email address (e.g. user@example.com).");
+            throw new InvalidUserException(
+                    "Invalid email format. Please provide a valid email address (e.g. user@example.com).");
         }
 
         // Step 4: Validate mobile
         if (!validateMobile(user.getMobile())) {
-            throw new InvalidUserException("Invalid mobile number. Mobile must contain exactly 10 digits.");
+            throw new InvalidUserException(
+                    "Invalid mobile number. Mobile must contain exactly 10 digits.");
         }
 
         // Step 5: Validate password
         if (!validatePassword(user.getPassword())) {
-            throw new InvalidPasswordException("Invalid password. Password must be at least 8 characters.");
+            throw new InvalidPasswordException(
+                "Password must be at least 8 characters and contain at least one uppercase letter, one lowercase letter, and one digit"
+            );
         }
-
         // Step 6: Check whether username already exists
         if (dao.findByUsername(user.getUsername()) != null) {
-            throw new DuplicateUsernameException("Username '" + user.getUsername() + "' is already taken.");
+            throw new DuplicateUsernameException(
+                    "Username '" + user.getUsername() + "' is already taken.");
         }
 
         // Step 7: Check whether email already exists
         if (dao.findByEmail(user.getEmail()) != null) {
-            throw new DuplicateEmailException("Email '" + user.getEmail() + "' is already registered.");
+            throw new DuplicateEmailException(
+                    "Email '" + user.getEmail() + "' is already registered.");
         }
 
         // Step 8: Check whether mobile already exists
         if (dao.findByMobile(user.getMobile()) != null) {
-            throw new DuplicateMobileException("Mobile number '" + user.getMobile() + "' is already registered.");
+            throw new DuplicateMobileException(
+                    "Mobile number '" + user.getMobile() + "' is already registered.");
         }
 
         // Step 9: Generate a unique user ID
@@ -119,22 +93,81 @@ public class UserServiceImpl implements UserService {
         user.setLoginAttempts(0);
 
         // Step 11: Save the user using DAO
-        dao.saveUser(user);
+        dao.registerUser(user);
     }
 
     @Override
     public User viewProfile(int userId) {
-        // Handled by Student 2
-        return null;
+
+        if (userId <= 0) {
+            throw new IllegalArgumentException("Invalid User ID");
+        }
+
+        User user = userDao.findById(userId);
+
+        if (user == null) {
+            throw new IllegalArgumentException("User Not Found");
+        }
+
+        return user;
     }
 
     @Override
     public void updateProfile(User user) {
-        // Handled by Student 2
+
+        if (user == null) {
+            throw new IllegalArgumentException("User cannot be null");
+        }
+
+        if (user.getUserId() <= 0) {
+            throw new IllegalArgumentException("Invalid User ID");
+        }
+
+        User existingUser = userDao.findById(user.getUserId());
+
+        if (existingUser == null) {
+            throw new IllegalArgumentException("User Not Found");
+        }
+
+        if (user.getUsername() == null ||
+            user.getUsername().trim().isEmpty()) {
+
+            throw new IllegalArgumentException(
+                    "Username cannot be empty");
+        }
+
+        if (user.getEmail() == null ||
+            user.getEmail().trim().isEmpty()) {
+
+            throw new IllegalArgumentException(
+                    "Email cannot be empty");
+        }
+
+        if (user.getMobile() == null ||
+            user.getMobile().trim().isEmpty()) {
+
+            throw new IllegalArgumentException(
+                    "Mobile cannot be empty");
+        }
+
+        if (!user.getMobile().matches("\\d{10}")) {
+
+            throw new IllegalArgumentException(
+                    "Mobile number must contain 10 digits");
+        }
+
+        existingUser.setUsername(user.getUsername());
+        existingUser.setEmail(user.getEmail());
+        existingUser.setMobile(user.getMobile());
+
+        userDao.updateUser(existingUser);
+
+        System.out.println("Profile updated successfully.");
     }
 
     @Override
     public void changePassword(int userId, String oldPassword, String newPassword) {
+
     	  // 1. Validate user ID
         if (userId <= 0) {
             throw new UserNotFoundException("Invalid User ID.");
@@ -173,10 +206,12 @@ public class UserServiceImpl implements UserService {
         dao.updatePassword(userId, newPassword);
 
         System.out.println("Password changed successfully.");
+
     }
 
     @Override
     public void forgotPassword(String email) {
+
         // 1. Check email provided
         if (email == null || email.trim().isEmpty()) {
             throw new InvalidEmailException(
@@ -197,41 +232,102 @@ public class UserServiceImpl implements UserService {
             throw new UserNotFoundException(
                     "No account found with this email.");
         }
+
+        // TODO Auto-generated method stub
+
     }
 
     @Override
     public void addPassenger(Passenger passenger) {
-        // Handled by Student 4
+        // TODO Auto-generated method stub
     }
 
     @Override
     public void updatePassenger(Passenger passenger) {
-        // Handled by Student 4
+        // TODO Auto-generated method stub
     }
 
     @Override
     public void deletePassenger(int passengerId) {
-        // Handled by Student 4
+        // TODO Auto-generated method stub
     }
 
     @Override
     public List<Passenger> getPassengers(int userId) {
-        // Handled by Student 5
+        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public List<String> getBookingHistory(int userId) {
-        // Handled by Student 5
+        // TODO Auto-generated method stub
         return null;
     }
 
+    private static final Pattern EMAIL_PATTERN = Pattern.compile(
+            "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$"
+    );
+
+    private static final Pattern MOBILE_PATTERN = Pattern.compile(
+            "^[0-9]{10}$"
+    );
+
     @Override
-    public String welcome(String msg) {
-        String newmsg = dao.getnewMessage(msg);
-        if (newmsg != null && newmsg.length() > 5) {
-            return newmsg;
+    public boolean validateUsername(String username) {
+
+        if (username == null) {
+            return false;
         }
-        return null;
+
+        String trimmed = username.trim();
+
+        return trimmed.length() >= 3;
+    }
+
+    @Override
+    public boolean validateEmail(String email) {
+
+        if (email == null) {
+            return false;
+        }
+
+        return EMAIL_PATTERN.matcher(email.trim()).matches();
+    }
+
+    public boolean validateMobile(String mobile) {
+
+        if (mobile == null) {
+            return false;
+        }
+
+        return MOBILE_PATTERN.matcher(mobile.trim()).matches();
+    }
+
+    public boolean validatePassword(String password) {
+
+        if (password == null || password.length() < 8) {
+            return false;
+        }
+
+        boolean isUppercase = false;
+        boolean isLowercase = false;
+        boolean isDigit = false;
+
+        for (char ch : password.toCharArray()) {
+
+            if (Character.isUpperCase(ch)) {
+                isUppercase = true;
+            }
+
+            if (Character.isLowerCase(ch)) {
+                isLowercase = true;
+            }
+
+            if (Character.isDigit(ch)) {
+                isDigit = true;
+            }
+        }
+
+        return isUppercase && isLowercase && isDigit;
     }
 }
