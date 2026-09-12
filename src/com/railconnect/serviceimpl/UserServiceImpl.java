@@ -10,6 +10,9 @@ import com.railconnect.exception.DuplicateMobileException;
 import com.railconnect.exception.DuplicateUsernameException;
 import com.railconnect.exception.InvalidPasswordException;
 import com.railconnect.exception.InvalidUserException;
+import com.railconnect.exception.InvalidEmailException;
+import com.railconnect.exception.InvalidOldPasswordException;
+import com.railconnect.exception.UserNotFoundException;
 import com.railconnect.model.Passenger;
 import com.railconnect.model.User;
 import com.railconnect.service.UserService;
@@ -22,8 +25,13 @@ public class UserServiceImpl implements UserService {
 
     public UserServiceImpl(UserDao dao) {
         this.dao = dao;
-        this.userDao = dao;
+
     }
+
+
+
+
+   
 
     @Override
     public void registerUser(User user) {
@@ -54,9 +62,9 @@ public class UserServiceImpl implements UserService {
         // Step 5: Validate password
         if (!validatePassword(user.getPassword())) {
             throw new InvalidPasswordException(
-                    "\"Password must be at least 8 characters and contain at least one uppercase letter, one lowercase letter, and one digit.\"");
+                "Password must be at least 8 characters and contain at least one uppercase letter, one lowercase letter, and one digit"
+            );
         }
-
         // Step 6: Check whether username already exists
         if (dao.findByUsername(user.getUsername()) != null) {
             throw new DuplicateUsernameException(
@@ -159,12 +167,74 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void changePassword(int userId, String oldPassword, String newPassword) {
-        // TODO Auto-generated method stub
+
+    	  // 1. Validate user ID
+        if (userId <= 0) {
+            throw new UserNotFoundException("Invalid User ID.");
+        }
+
+        // 2. Find user
+        User user = dao.findById(userId);
+
+        if (user == null) {
+            throw new UserNotFoundException("User not found.");
+        }
+
+        // 3. Check old password
+        if (oldPassword == null ||
+            !oldPassword.equals(user.getPassword())) {
+
+            throw new InvalidOldPasswordException(
+                    "Old password is incorrect.");
+        }
+
+        // 4. Validate new password
+        if (!validatePassword(newPassword)) {
+
+            throw new InvalidPasswordException(
+                    "Invalid password. Password must be at least 8 characters.");
+        }
+
+        // 5. New password should be different
+        if (newPassword.equals(oldPassword)) {
+
+            throw new InvalidPasswordException(
+                    "New password must be different from old password.");
+        }
+
+        // 6. Update password through DAO
+        dao.updatePassword(userId, newPassword);
+
+        System.out.println("Password changed successfully.");
+
     }
 
     @Override
     public void forgotPassword(String email) {
+
+        // 1. Check email provided
+        if (email == null || email.trim().isEmpty()) {
+            throw new InvalidEmailException(
+                    "Email cannot be empty.");
+        }
+
+        // 2. Validate email format
+        if (!validateEmail(email)) {
+            throw new InvalidEmailException(
+                    "Invalid email format.");
+        }
+
+        // 3. Find user by email
+        User user = dao.findByEmail(email);
+
+        // 4. Check account exists
+        if (user == null) {
+            throw new UserNotFoundException(
+                    "No account found with this email.");
+        }
+
         // TODO Auto-generated method stub
+
     }
 
     @Override

@@ -22,19 +22,7 @@ public class UserDao {
 			  
 	  }
 	  
-	 public User findById(int userId) {
-
-
-	        for (User user : users) {
-
-	            if (user.getUserId() == userId) {
-
-	                return user;
-	            }
-	        }
-
-	        return null;
-	    }
+	
 
 
 	   
@@ -109,7 +97,29 @@ public class UserDao {
         return null;
     }
 
+
+    public synchronized User findById(int userId) {
+        for (User u : users) {
+            if (u.getUserId() == userId) {
+                return u;
+            }
+        }
+        return null;
+    }
+    
+    // to update the old password
+    public synchronized void updatePassword(int userId, String newPassword) {
+        for (User u : users) {
+            if (u.getUserId() == userId) {
+                u.setPassword(newPassword);
+                return;
+            }
+        }
+    }
+
+
   
+
     public synchronized List<User> findAllUsers() {
         return Collections.unmodifiableList(new ArrayList<>(users));
     }
