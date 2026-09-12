@@ -9,12 +9,48 @@ import com.railconnect.model.User;
 
 public class UserDao {
 
-    private static final List<User> users = new ArrayList<>();
-    private static final AtomicInteger idGenerator = new AtomicInteger(1001);
+	
+	
+	  private List<User> users = new ArrayList<>();
+	  
+	  
+	public  void registerUser(User user) {
+			  
+	  }
+	  
+	 public User findById(int userId) {
 
-    public void registerUser(User user) {
-        saveUser(user);
-    }
+	        for (User user : users) {
+
+	            if (user.getUserId() == userId) {
+
+	                return user;
+	            }
+	        }
+
+	        return null;
+	    }
+
+
+	   
+	    public void updateUser(User user) {
+
+	        for (int i = 0; i < users.size(); i++) {
+
+	            if (users.get(i).getUserId() == user.getUserId()) {
+
+	                users.set(i, user);
+
+	                return;
+	            }
+	        }
+	    }  
+	  
+
+
+
+
+    private static final AtomicInteger idGenerator = new AtomicInteger(1001);
 
     public synchronized void saveUser(User user) {
         if (user == null) {
@@ -68,15 +104,7 @@ public class UserDao {
         return null;
     }
 
-    public synchronized User findById(int userId) {
-        for (User u : users) {
-            if (u.getUserId() == userId) {
-                return u;
-            }
-        }
-        return null;
-    }
-
+  
     public synchronized List<User> findAllUsers() {
         return Collections.unmodifiableList(new ArrayList<>(users));
     }

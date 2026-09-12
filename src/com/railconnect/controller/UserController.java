@@ -154,8 +154,43 @@ public class UserController {
         System.out.print("Enter User ID: ");
         int userId = scanner.nextInt();
         scanner.nextLine();
-     
-       
+
+
+
+        try {
+
+            User user = userService.viewProfile(userId);
+
+
+            System.out.println();
+            System.out.println("================================");
+            System.out.println("          USER PROFILE");
+            System.out.println("================================");
+
+            System.out.println("User ID       : " + user.getUserId());
+
+            System.out.println("Username      : " + user.getUsername());
+
+            System.out.println("Email         : " + user.getEmail());
+
+            System.out.println("Mobile        : " + user.getMobile());
+
+            System.out.println("Role          : " + user.getRole());
+
+            System.out.println("Account Locked: " + user.isAccountLocked());
+
+            System.out.println("Login Attempts: " + user.getLoginAttempts());
+
+            System.out.println("================================");
+
+        }
+        catch (IllegalArgumentException e) {
+
+            System.out.println("Error: " + e.getMessage());
+        }
+
+        // Handled by Student 2
+
     }
 
     // 3. Update Profile
@@ -173,7 +208,20 @@ public class UserController {
 
         System.out.print("Enter Mobile: ");
         user.setMobile(scanner.nextLine());
+
+
+        try {
+
+            userService.updateProfile(user);
+
+        }
+        catch (IllegalArgumentException e) {
+
+            System.out.println("Error: " + e.getMessage());
+        }
+
         // Handled by Student 2
+
     }
 
     // 4. Change Password
@@ -283,5 +331,4 @@ public class UserController {
         // Handled by Student 5
     }
 
-   
 }
