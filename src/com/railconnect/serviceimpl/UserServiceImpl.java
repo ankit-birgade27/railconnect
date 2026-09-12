@@ -25,9 +25,9 @@ public class UserServiceImpl implements UserService {
             "^[0-9]{10}$"
     );
 
-    public UserServiceImpl() {
-        this.dao = new UserDao();
-    }
+//    public UserServiceImpl() {
+//        this.dao = new UserDao();
+//    }
 
     public UserServiceImpl(UserDao dao) {
         this.dao = dao;
@@ -58,10 +58,30 @@ public class UserServiceImpl implements UserService {
     }
 
     public boolean validatePassword(String password) {
-        if (password == null) {
-            return false;
-        }
-        return password.length() >= 6;
+    	 if (password == null || password.length() < 8) {
+    	        return false;
+    	    }
+
+    	    boolean isUppercase = false;
+    	    boolean isLowercase = false;
+    	    boolean isDigit = false;
+
+    	    for (char ch : password.toCharArray()) {
+
+    	        if (Character.isUpperCase(ch)) {
+    	            isUppercase = true;
+    	        }
+
+    	        if (Character.isLowerCase(ch)) {
+    	            isLowercase = true;
+    	        }
+
+    	        if (Character.isDigit(ch)) {
+    	            isDigit = true;
+    	        }
+    	    }
+
+    	    return isUppercase && isLowercase && isDigit;
     }
 
     @Override
@@ -88,7 +108,7 @@ public class UserServiceImpl implements UserService {
 
         // Step 5: Validate password
         if (!validatePassword(user.getPassword())) {
-            throw new InvalidPasswordException("Invalid password. Password must be at least 6 characters.");
+            throw new InvalidPasswordException("\"Password must be at least 8 characters and contain at least one uppercase letter, one lowercase letter, and one digit.\"");
         }
 
         // Step 6: Check whether username already exists
@@ -116,7 +136,7 @@ public class UserServiceImpl implements UserService {
         user.setLoginAttempts(0);
 
         // Step 11: Save the user using DAO
-        dao.saveUser(user);
+        dao.registerUser(user);
     }
 
     @Override
@@ -167,12 +187,4 @@ public class UserServiceImpl implements UserService {
         return null;
     }
 
-    @Override
-    public String welcome(String msg) {
-        String newmsg = dao.getnewMessage(msg);
-        if (newmsg != null && newmsg.length() > 5) {
-            return newmsg;
-        }
-        return null;
-    }
 }
