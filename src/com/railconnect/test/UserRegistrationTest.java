@@ -98,7 +98,7 @@ public class UserRegistrationTest {
         user.setUsername("passenger_demo");
         user.setEmail("passenger@railconnect.com");
         user.setMobile("9812345678");
-        user.setPassword("securepass");
+        user.setPassword("securePass1");
 
         service.registerUser(user);
 
