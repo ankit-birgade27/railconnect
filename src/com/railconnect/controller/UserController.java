@@ -156,6 +156,7 @@ public class UserController {
         scanner.nextLine();
 
 
+
         try {
 
             User user = userService.viewProfile(userId);
@@ -218,7 +219,7 @@ public class UserController {
 
             System.out.println("Error: " + e.getMessage());
         }
-=======
+
         // Handled by Student 2
 
     }
@@ -330,5 +331,4 @@ public class UserController {
         // Handled by Student 5
     }
 
- 
 }
