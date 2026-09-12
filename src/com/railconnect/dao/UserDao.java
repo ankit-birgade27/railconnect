@@ -6,12 +6,16 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.railconnect.model.User;
+import com.railconnect.storage.DataStore;
 
 public class UserDao {
 
+    private final List<User> users = DataStore.getUsers();
+
+
 	
 	
-	  private List<User> users = new ArrayList<>();
+	 
 	  
 	  
 	public  void registerUser(User user) {
@@ -19,6 +23,7 @@ public class UserDao {
 	  }
 	  
 	 public User findById(int userId) {
+
 
 	        for (User user : users) {
 
@@ -111,10 +116,6 @@ public class UserDao {
 
     public int generateUniqueUserId() {
         return idGenerator.getAndIncrement();
-    }
-
-    public String getnewMessage(String msg) {
-        return msg;
     }
 
     public synchronized void clear() {
