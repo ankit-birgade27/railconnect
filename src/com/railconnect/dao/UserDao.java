@@ -11,11 +11,51 @@ import com.railconnect.storage.DataStore;
 public class UserDao {
 
     private final List<User> users = DataStore.getUsers();
-    private static final AtomicInteger idGenerator = new AtomicInteger(1001);
 
-    public void registerUser(User user) {
-        saveUser(user);
-    }
+
+	
+	
+	 
+	  
+	  
+	public  void registerUser(User user) {
+			  
+	  }
+	  
+	 public User findById(int userId) {
+
+
+	        for (User user : users) {
+
+	            if (user.getUserId() == userId) {
+
+	                return user;
+	            }
+	        }
+
+	        return null;
+	    }
+
+
+	   
+	    public void updateUser(User user) {
+
+	        for (int i = 0; i < users.size(); i++) {
+
+	            if (users.get(i).getUserId() == user.getUserId()) {
+
+	                users.set(i, user);
+
+	                return;
+	            }
+	        }
+	    }  
+	  
+
+
+
+
+    private static final AtomicInteger idGenerator = new AtomicInteger(1001);
 
     public synchronized void saveUser(User user) {
         if (user == null) {
@@ -69,15 +109,7 @@ public class UserDao {
         return null;
     }
 
-    public synchronized User findById(int userId) {
-        for (User u : users) {
-            if (u.getUserId() == userId) {
-                return u;
-            }
-        }
-        return null;
-    }
-
+  
     public synchronized List<User> findAllUsers() {
         return Collections.unmodifiableList(new ArrayList<>(users));
     }
