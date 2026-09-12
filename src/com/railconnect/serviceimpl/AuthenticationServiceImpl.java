@@ -51,8 +51,12 @@ public class AuthenticationServiceImpl  implements AuthenticationService{
 		if(username == null || username.isBlank()) {
 			return false;
 		}
+<<<<<<< Updated upstream
 		
 		return username.length() >= 3;
+=======
+		return username.length()>=3;
+>>>>>>> Stashed changes
 	}
 
 	@Override
@@ -60,8 +64,12 @@ public class AuthenticationServiceImpl  implements AuthenticationService{
 		if(email == null || email.isBlank()) {
 			return false;
 		}
+<<<<<<< Updated upstream
 		
 		return email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9]+$");
+=======
+		return email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$");
+>>>>>>> Stashed changes
 	}
 
 	@Override
@@ -69,12 +77,16 @@ public class AuthenticationServiceImpl  implements AuthenticationService{
 		if(mobile == null || mobile.isBlank()) {
 			return false;
 		}
+<<<<<<< Updated upstream
 		
+=======
+>>>>>>> Stashed changes
 		return mobile.matches("\\d{10}");
 	}
 
 	@Override
 	public boolean validatePassword(String password) {
+<<<<<<< Updated upstream
 		
 		if(password == null || password.isBlank() || password.length() > 8) {
 			return false;
@@ -84,21 +96,42 @@ public class AuthenticationServiceImpl  implements AuthenticationService{
 		boolean isLowercase = false;
 		boolean isDigit = false;
 		
+=======
+		if(password == null || password.isBlank() || password.length() < 8) {
+			return false;
+		}
+
+		boolean isUppercase = false;
+		boolean isLowercase = false;
+		boolean isDigit = false;
+
+>>>>>>> Stashed changes
 		for(char ch : password.toCharArray()) {
 			if(Character.isUpperCase(ch)) {
 				isUppercase = true;
 			}
+<<<<<<< Updated upstream
 			
 			
 			if(Character.isLowerCase(ch)) {
 				isLowercase = true;
 			}
 			
+=======
+
+			if(Character.isLowerCase(ch)) {
+				isLowercase = true;
+			}
+
+>>>>>>> Stashed changes
 			if(Character.isDigit(ch)) {
 				isDigit = true;
 			}
 		}
+<<<<<<< Updated upstream
 		
+=======
+>>>>>>> Stashed changes
 		return isUppercase && isLowercase && isDigit;
 	}
 

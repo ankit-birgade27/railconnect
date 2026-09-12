@@ -6,12 +6,23 @@ import java.util.Scanner;
 import com.railconnect.model.Passenger;
 import com.railconnect.model.User;
 import com.railconnect.service.UserService;
+<<<<<<< Updated upstream
+=======
+//import com.railconnect.serviceimpl.UserServiceImpl;
+>>>>>>> Stashed changes
 
 public class UserController {
 
     private UserService userService;
 
+<<<<<<< Updated upstream
     private Scanner scanner = new Scanner(System.in);
+=======
+//    public UserController() {
+//        this.userService = new UserServiceImpl();
+//        this.scanner = new Scanner(System.in);
+//    }
+>>>>>>> Stashed changes
 
     public UserController(UserService userService) {
         this.userService = userService;
@@ -113,8 +124,54 @@ public class UserController {
         
         
 
+<<<<<<< Updated upstream
         // Call proper method from service
     }
+=======
+        registerUser(user);
+    }
+
+    /**
+     * Handles user registration request and provides user-facing feedback.
+     */
+    public boolean registerUser(User user) {
+        try {
+            userService.registerUser(user);
+            System.out.println("Registration Successful!");
+            System.out.println("  User ID       : " + user.getUserId());
+            System.out.println("  Username      : " + user.getUsername());
+            System.out.println("  Email         : " + user.getEmail());
+            System.out.println("  Mobile        : " + user.getMobile());
+            System.out.println("  Role          : " + user.getRole());
+            System.out.println("  AccountLocked : " + user.isAccountLocked());
+            System.out.println("  LoginAttempts : " + user.getLoginAttempts());
+            return true;
+        } catch (DuplicateUsernameException e) {
+            System.err.println("[Registration Error - Duplicate Username]: " + e.getMessage());
+            return false;
+        } catch (DuplicateEmailException e) {
+            System.err.println("[Registration Error - Duplicate Email]: " + e.getMessage());
+            return false;
+        } catch (DuplicateMobileException e) {
+            System.err.println("[Registration Error - Duplicate Mobile]: " + e.getMessage());
+            return false;
+        } catch (InvalidPasswordException e) {
+            System.err.println("[Registration Error - Invalid Password]: " + e.getMessage());
+            return false;
+        } catch (InvalidUserException e) {
+            System.err.println("[Registration Error - Invalid User Data]: " + e.getMessage());
+            return false;
+        } catch (Exception e) {
+            System.err.println("[Registration Error - Unexpected]: " + e.getMessage());
+            return false;
+        }
+    }
+
+//    public void getMsg(String msg) {
+//        String welcomemsg = userService.welcome(msg);
+//        System.out.println(welcomemsg);
+//    }
+>>>>>>> Stashed changes
 
     // 2. View Profile
     private void viewProfile() {

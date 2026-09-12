@@ -1,4 +1,5 @@
 package com.railconnect.dao;
+<<<<<<< Updated upstream
 import java.util.List;
 
 import com.railconnect.model.User;
@@ -43,5 +44,16 @@ public class AuthenticationDao {
 		
 		return null;
 	}
+=======
+
+//import java.util.ArrayList;
+//import java.util.List;
+//
+//import com.railconnect.model.User;
+
+public class AuthenticationDao {
+	
+//	  private List<User> users = new ArrayList<>();
+>>>>>>> Stashed changes
 
 }

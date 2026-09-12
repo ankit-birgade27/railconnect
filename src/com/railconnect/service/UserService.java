@@ -7,10 +7,21 @@ import com.railconnect.model.User;
 
 public interface UserService {
 
+<<<<<<< Updated upstream
 	
 
     void registerUser(User user);
 
+=======
+//    String welcome(String msg);
+
+    void registerUser(User user);
+
+//    boolean validateUsername(String username);
+//
+//    boolean validateEmail(String email);
+
+>>>>>>> Stashed changes
     User viewProfile(int userId);
 
     void updateProfile(User user);

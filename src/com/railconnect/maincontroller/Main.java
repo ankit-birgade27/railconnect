@@ -1,7 +1,5 @@
 package com.railconnect.maincontroller;
 
-
-
 import com.railconnect.controller.UserController;
 import com.railconnect.controller.TrainController;
 import com.railconnect.controller.SearchController;
@@ -21,7 +19,6 @@ import com.railconnect.dao.CancellationDao;
 import com.railconnect.dao.FareDao;
 import com.railconnect.dao.PaymentDao;
 import com.railconnect.dao.AdminDao;
-
 import com.railconnect.service.UserService;
 import com.railconnect.service.TrainService;
 import com.railconnect.service.SearchService;
@@ -31,7 +28,9 @@ import com.railconnect.service.CancellationService;
 import com.railconnect.service.FareService;
 import com.railconnect.service.PaymentService;
 import com.railconnect.service.AdminService;
+import com.railconnect.service.AuthenticationService;
 import com.railconnect.serviceimpl.AdminServiceImpl;
+import com.railconnect.serviceimpl.AuthenticationServiceImpl;
 import com.railconnect.serviceimpl.BookingServiceImpl;
 import com.railconnect.serviceimpl.CancellationServiceImpl;
 import com.railconnect.serviceimpl.FareServiceImpl;
@@ -71,9 +70,15 @@ public class Main {
         // ==========================================
         // SERVICE OBJECTS
         // ==========================================
+        
+        AuthenticationService authenticationService = new AuthenticationServiceImpl();
 
         UserService userService =
+<<<<<<< Updated upstream
                 new UserServiceImpl(userDao, null);
+=======
+                new UserServiceImpl(userDao, authenticationService);
+>>>>>>> Stashed changes
 
         TrainService trainService =
                 new TrainServiceImpl(trainDao);
