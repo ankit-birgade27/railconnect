@@ -11,11 +11,39 @@ import com.railconnect.storage.DataStore;
 public class UserDao {
 
     private final List<User> users = DataStore.getUsers();
-    private static final AtomicInteger idGenerator = new AtomicInteger(1001);
 
-    public void registerUser(User user) {
-        saveUser(user);
-    }
+
+	
+	
+	 
+	  
+	  
+	public  void registerUser(User user) {
+			  
+	  }
+	  
+	
+
+
+	   
+	    public void updateUser(User user) {
+
+	        for (int i = 0; i < users.size(); i++) {
+
+	            if (users.get(i).getUserId() == user.getUserId()) {
+
+	                users.set(i, user);
+
+	                return;
+	            }
+	        }
+	    }  
+	  
+
+
+
+
+    private static final AtomicInteger idGenerator = new AtomicInteger(1001);
 
     public synchronized void saveUser(User user) {
         if (user == null) {
@@ -69,6 +97,7 @@ public class UserDao {
         return null;
     }
 
+
     public synchronized User findById(int userId) {
         for (User u : users) {
             if (u.getUserId() == userId) {
@@ -77,6 +106,19 @@ public class UserDao {
         }
         return null;
     }
+    
+    // to update the old password
+    public synchronized void updatePassword(int userId, String newPassword) {
+        for (User u : users) {
+            if (u.getUserId() == userId) {
+                u.setPassword(newPassword);
+                return;
+            }
+        }
+    }
+
+
+  
 
     public synchronized List<User> findAllUsers() {
         return Collections.unmodifiableList(new ArrayList<>(users));

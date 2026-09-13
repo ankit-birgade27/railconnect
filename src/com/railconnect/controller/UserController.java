@@ -17,10 +17,14 @@ public class UserController {
     private final UserService userService;
     private final Scanner scanner;
 
+<<<<<<< HEAD
 //    public UserController() {
 //        this.userService = new UserServiceImpl();
 //        this.scanner = new Scanner(System.in);
 //    }
+=======
+  
+>>>>>>> ae65b0b5fe7642bf1617697455f04acd5c1e5311
 
     public UserController(UserService userService) {
         this.userService = userService;
@@ -144,18 +148,57 @@ public class UserController {
         }
     }
 
+<<<<<<< HEAD
 //    public void getMsg(String msg) {
 //        String welcomemsg = userService.welcome(msg);
 //        System.out.println(welcomemsg);
 //    }
 
+=======
+   
+>>>>>>> ae65b0b5fe7642bf1617697455f04acd5c1e5311
     // 2. View Profile
     private void viewProfile() {
         System.out.print("Enter User ID: ");
         int userId = scanner.nextInt();
         scanner.nextLine();
-     
-       
+
+
+
+        try {
+
+            User user = userService.viewProfile(userId);
+
+
+            System.out.println();
+            System.out.println("================================");
+            System.out.println("          USER PROFILE");
+            System.out.println("================================");
+
+            System.out.println("User ID       : " + user.getUserId());
+
+            System.out.println("Username      : " + user.getUsername());
+
+            System.out.println("Email         : " + user.getEmail());
+
+            System.out.println("Mobile        : " + user.getMobile());
+
+            System.out.println("Role          : " + user.getRole());
+
+            System.out.println("Account Locked: " + user.isAccountLocked());
+
+            System.out.println("Login Attempts: " + user.getLoginAttempts());
+
+            System.out.println("================================");
+
+        }
+        catch (IllegalArgumentException e) {
+
+            System.out.println("Error: " + e.getMessage());
+        }
+
+        // Handled by Student 2
+
     }
 
     // 3. Update Profile
@@ -173,7 +216,20 @@ public class UserController {
 
         System.out.print("Enter Mobile: ");
         user.setMobile(scanner.nextLine());
+
+
+        try {
+
+            userService.updateProfile(user);
+
+        }
+        catch (IllegalArgumentException e) {
+
+            System.out.println("Error: " + e.getMessage());
+        }
+
         // Handled by Student 2
+
     }
 
     // 4. Change Password
@@ -187,14 +243,34 @@ public class UserController {
 
         System.out.print("Enter New Password: ");
         String newPassword = scanner.nextLine();
-        // Handled by Student 3
+        try {
+
+            userService.changePassword(
+                    userId,
+                    oldPassword,
+                    newPassword
+            );
+
+        } catch (Exception e) {
+
+            System.out.println("Password Change Error: "
+                    + e.getMessage());
+        }
     }
 
     // 5. Forgot Password
     private void forgotPassword() {
         System.out.print("Enter Email: ");
         String email = scanner.nextLine();
-        // Handled by Student 3
+        try {
+
+            userService.forgotPassword(email);
+
+        } catch (Exception e) {
+
+            System.out.println("Password Recovery Error: "
+                    + e.getMessage());
+        }
     }
 
     // 6. Add Passenger
@@ -283,5 +359,4 @@ public class UserController {
         // Handled by Student 5
     }
 
-   
 }
