@@ -17,7 +17,14 @@ public class UserController {
     private final UserService userService;
     private final Scanner scanner;
 
+<<<<<<< HEAD
+//    public UserController() {
+//        this.userService = new UserServiceImpl();
+//        this.scanner = new Scanner(System.in);
+//    }
+=======
   
+>>>>>>> ae65b0b5fe7642bf1617697455f04acd5c1e5311
 
     public UserController(UserService userService) {
         this.userService = userService;
@@ -141,7 +148,15 @@ public class UserController {
         }
     }
 
+<<<<<<< HEAD
+//    public void getMsg(String msg) {
+//        String welcomemsg = userService.welcome(msg);
+//        System.out.println(welcomemsg);
+//    }
+
+=======
    
+>>>>>>> ae65b0b5fe7642bf1617697455f04acd5c1e5311
     // 2. View Profile
     private void viewProfile() {
         System.out.print("Enter User ID: ");

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import com.railconnect.exception.InvalidTrainIdException;
 import com.railconnect.model.Coach;
 import com.railconnect.model.Route;
 import com.railconnect.model.Station;
@@ -352,5 +353,9 @@ public class TrainController {
         scanner.nextLine();
 
         // Call proper method from service
+        boolean exists = trainService.trainExists(trainId);
+
+        System.out.println("Train exists: " + exists);
+        
     }
 }
