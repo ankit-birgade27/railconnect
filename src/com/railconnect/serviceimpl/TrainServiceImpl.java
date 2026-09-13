@@ -3,13 +3,12 @@ package com.railconnect.serviceimpl;
 import java.util.List;
 
 import com.railconnect.dao.TrainDao;
+import com.railconnect.exception.InvalidTrainIdException;
 import com.railconnect.model.Train;
 import com.railconnect.service.TrainService;
 
 public class TrainServiceImpl  implements TrainService{
-	
-
-	     private TrainDao trainDao;
+	    private TrainDao trainDao;
 
 	    public TrainServiceImpl(TrainDao trainDao) {
 	        this.trainDao = trainDao;
@@ -47,8 +46,12 @@ public class TrainServiceImpl  implements TrainService{
 
 	@Override
 	public boolean trainExists(int trainId) {
-		// TODO Auto-generated method stub
-		return false;
+		if(trainId <= 0) {
+			throw new InvalidTrainIdException("Train ID must be positive.");
+		}
+		Train train = trainDao.findById(trainId);
+		
+		return train != null;
 	}
 
 }

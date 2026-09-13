@@ -17,10 +17,10 @@ public class UserController {
     private final UserService userService;
     private final Scanner scanner;
 
-    public UserController() {
-        this.userService = new UserServiceImpl();
-        this.scanner = new Scanner(System.in);
-    }
+//    public UserController() {
+//        this.userService = new UserServiceImpl();
+//        this.scanner = new Scanner(System.in);
+//    }
 
     public UserController(UserService userService) {
         this.userService = userService;
@@ -144,10 +144,10 @@ public class UserController {
         }
     }
 
-    public void getMsg(String msg) {
-        String welcomemsg = userService.welcome(msg);
-        System.out.println(welcomemsg);
-    }
+//    public void getMsg(String msg) {
+//        String welcomemsg = userService.welcome(msg);
+//        System.out.println(welcomemsg);
+//    }
 
     // 2. View Profile
     private void viewProfile() {
