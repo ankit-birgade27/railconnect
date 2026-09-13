@@ -3,6 +3,10 @@ package com.railconnect.serviceimpl;
 import java.util.List;
 
 import com.railconnect.dao.SeatDao;
+import com.railconnect.enums.SeatStatus;
+import com.railconnect.exception.InvalidSeatIdException;
+import com.railconnect.exception.SeatAlreadyAvailableException;
+import com.railconnect.exception.SeatNotFoundException;
 import com.railconnect.model.Seat;
 import com.railconnect.service.SeatService;
 
@@ -47,6 +51,24 @@ public class SeatServiceImpl implements SeatService{
 	@Override
 	public void releaseSeat(String seatId) {
 		// TODO Auto-generated method stub
+		
+		if(seatId == null || seatId.isBlank()) {
+			throw new InvalidSeatIdException("Invalid Seat ID");
+		}
+		
+		Seat seat = seatDao.findById(seatId);
+		
+		if(seat == null) {
+			throw new SeatNotFoundException("Seat not found");
+		}
+		
+		if(SeatStatus.AVAILABLE.name().equals(seat.getStatus())) {
+			throw new SeatAlreadyAvailableException("Seat is already Available.");
+		}
+		
+		seat.setStatus(SeatStatus.AVAILABLE.name());
+		
+		seatDao.updateSeat(seat);
 		
 	}
 
