@@ -4,10 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+
 import com.railconnect.exception.DuplicateTrainNumberException;
 import com.railconnect.exception.InvalidTrainException;
 import com.railconnect.exception.InvalidTrainIdException;
 import com.railconnect.exception.RouteNotFoundException;
+
+import com.railconnect.exception.*;
+
+
+import com.railconnect.exception.InvalidTrainIdException;
+
 import com.railconnect.model.Coach;
 import com.railconnect.model.Route;
 import com.railconnect.model.Station;
@@ -336,6 +343,17 @@ public class TrainController {
 
 
         // Call proper method from service
+        try {
+        trainService.updateTrain(train);
+        System.out.println("Train updated successfully!");
+
+        } catch (InvalidTrainException |
+                 DuplicateTrainNumberException |
+                 TrainNotFoundException |
+                 RouteNotFoundException e) {
+
+            System.out.println("Update failed: " + e.getMessage());
+        }
     }
 
 

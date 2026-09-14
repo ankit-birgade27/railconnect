@@ -11,4 +11,12 @@ public class RouteNotFoundException extends RuntimeException {
     public RouteNotFoundException(String message, Throwable cause) {
         super(message, cause);
     }
+
+public class RouteNotFoundException extends Exception{
+
+	public RouteNotFoundException(String message) {
+		
+		super(message);
+	}
+
 }
