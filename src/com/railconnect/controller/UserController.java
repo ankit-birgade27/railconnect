@@ -10,14 +10,11 @@ import com.railconnect.exception.InvalidUserException;
 import com.railconnect.model.Passenger;
 import com.railconnect.model.User;
 import com.railconnect.service.UserService;
-import com.railconnect.serviceimpl.UserServiceImpl;
 
 public class UserController {
 
     private final UserService userService;
     private final Scanner scanner;
-
-  
 
     public UserController(UserService userService) {
         this.userService = userService;
@@ -141,7 +138,6 @@ public class UserController {
         }
     }
 
-   
     // 2. View Profile
     private void viewProfile() {
         System.out.print("Enter User ID: ");

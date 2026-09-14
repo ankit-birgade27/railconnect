@@ -152,6 +152,8 @@ public class SeatController {
         String seatId = scanner.nextLine();
 
         // Call proper method from service
+        
+        
     }
 
 
@@ -163,5 +165,8 @@ public class SeatController {
         String seatId = scanner.nextLine();
 
         // Call proper method from service
+        
+        seatService.releaseSeat(seatId);
+        System.out.println("Seat Released Suucessfully.");
     }
 }

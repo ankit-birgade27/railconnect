@@ -7,4 +7,9 @@ public class InvalidTrainIdException extends Exception{
 		super(message);
 	}
 
+
+public class InvalidTrainIdException extends RuntimeException{
+	public InvalidTrainIdException(String msg) {
+		super(msg);
+
 }
