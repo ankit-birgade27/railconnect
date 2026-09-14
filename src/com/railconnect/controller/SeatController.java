@@ -1,6 +1,7 @@
 package com.railconnect.controller;
 
 import java.util.List;
+import com.railconnect.exception.*;
 import java.util.Scanner;
 
 import com.railconnect.model.Seat;
@@ -126,6 +127,20 @@ public class SeatController {
         String seatNumber = scanner.nextLine();
 
         // Call proper method from service
+        try {
+        	boolean available = seatService.isSeatAvailable(trainId, seatNumber);
+
+            if (available) {
+                System.out.println("Seat is available.");
+            } else {
+                System.out.println("Seat is not available.");
+            }
+
+        }catch(InvalidTrainIdException | InvalidSeatNumberException | 
+        		TrainNotFoundException | SeatNotFoundException e) {
+        	System.out.println(" "+e.getMessage());
+        }
+        
     }
 
 
