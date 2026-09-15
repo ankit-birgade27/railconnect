@@ -76,6 +76,17 @@ public class UserDao {
         }
         return null;
     }
+    public synchronized void updateUser(User user) {
+        if (user == null) {
+            return;
+        }
+        for (int i = 0; i < users.size(); i++) {
+            if (users.get(i).getUserId() == user.getUserId()) {
+                users.set(i, user);
+                return;
+            }
+        }
+    }
 
     public synchronized List<User> findAllUsers() {
         return Collections.unmodifiableList(new ArrayList<>(users));

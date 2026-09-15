@@ -3,7 +3,8 @@ package com.railconnect.controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
+import com.railconnect.exception.InvalidTrainIdException;
+import com.railconnect.exception.TrainNotFoundException;
 import com.railconnect.model.Coach;
 import com.railconnect.model.Route;
 import com.railconnect.model.Station;
@@ -189,23 +190,35 @@ public class TrainController {
         }
 
         train.setCoaches(coaches);
-
-
         // Call proper method from service
     }
+    
+      // 2. Get Train By ID
+    
+        private void getTrainById() {
+            System.out.print("Enter Train ID: ");
+            int trainId = scanner.nextInt();
+            scanner.nextLine();
+           // Call proper method from service
+            try {
+                Train train = getTrainById(trainId);
+                System.out.println("\n========== TRAIN DETAILS ==========");
+                System.out.println(train);
 
+            } catch (InvalidTrainIdException e) {
 
-    // 2. Get Train By ID
-    private void getTrainById() {
+                System.out.println("Invalid Train ID: " + e.getMessage());
 
-        System.out.print("Enter Train ID: ");
+            } catch (TrainNotFoundException e) {
 
-        int trainId = scanner.nextInt();
-        scanner.nextLine();
-
-        // Call proper method from service
-    }
-
+                System.out.println("Train Not Found: " + e.getMessage());
+            }
+        }
+        public Train getTrainById(int trainId)
+                throws InvalidTrainIdException, TrainNotFoundException {
+            return trainService.getTrainById(trainId);
+        }
+        
 
     // 3. Get All Trains
     private void getAllTrains() {

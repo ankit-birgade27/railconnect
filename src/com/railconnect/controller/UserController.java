@@ -155,6 +155,21 @@ public class UserController {
         int userId = scanner.nextInt();
         scanner.nextLine();
         // Handled by Student 2
+        try {
+            User user = userController.viewProfile(userId);
+
+            System.out.println("----- User Profile -----");
+            System.out.println("User ID : " + user.getUserId());
+            System.out.println("Name    : " + user.getName());
+            System.out.println("Email   : " + user.getEmail());
+            System.out.println("Mobile  : " + user.getMobile());
+
+        } catch (InvalidUserIdException e) {
+            System.out.println(e.getMessage());
+
+        } catch (UserNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     // 3. Update Profile
@@ -173,8 +188,32 @@ public class UserController {
         System.out.print("Enter Mobile: ");
         user.setMobile(scanner.nextLine());
         // Handled by Student 2
-    }
+        User user = new User();
 
+        user.setUserId(userId);
+        user.setName(name);
+        user.setEmail(email);
+        user.setMobile(mobile);
+
+        try {
+            userController.updateProfile(user);
+
+            System.out.println("Profile updated successfully.");
+
+        } catch (InvalidUserException e) {
+            System.out.println(e.getMessage());
+
+        } catch (UserNotFoundException e) {
+            System.out.println(e.getMessage());
+
+        } catch (InvalidEmailException e) {
+            System.out.println(e.getMessage());
+
+        } catch (DuplicateEmailException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+   
     // 4. Change Password
     private void changePassword() {
         System.out.print("Enter User ID: ");

@@ -122,13 +122,70 @@ public class UserServiceImpl implements UserService {
     @Override
     public User viewProfile(int userId) {
         // Handled by Student 2
+    	// Step 1: Validate User ID
+        if (userId <= 0) {
+            throw new InvalidUserIdException("Invalid User ID.");
+        }
+        // Step 2: Find user using DAO
+        User user = dao.findById(userId);
+
+        // Step 3: Check whether user exists
+        if (user == null) {
+            throw new UserNotFoundException("User with ID " + userId + " not found.");
+        }
+        // Step 4: Return User object
+        return user;
+        
         return null;
     }
 
     @Override
     public void updateProfile(User user) {
         // Handled by Student 2
+    	// 1. Check User object
+        if (user == null) {
+            throw new InvalidUserException("User object cannot be null.");
+        }
+
+        // 2. Validate User ID
+        if (user.getUserId() <= 0) {
+            throw new InvalidUserException("Invalid User ID.");
+        }
+
+        // 3. Check whether user exists
+        User existingUser = dao.findById(user.getUserId());
+
+        if (existingUser == null) {
+            throw new UserNotFoundException("User not found.");
+        }
+
+        // 4. Validate username
+        if (!validateUsername(user.getUsername())) {
+            throw new InvalidUserException("Invalid username.");
+        }
+
+        // 5. Validate email
+        if (!validateEmail(user.getEmail())) {
+            throw new InvalidUserException("Invalid email.");
+        }
+
+        // 6. Check duplicate email
+        User emailUser = dao.findByEmail(user.getEmail());
+
+        if (emailUser != null && emailUser.getUserId() != user.getUserId()) {
+
+            throw new DuplicateEmailException("Email already exists.");
+        }
+
+        // 7. Validate mobile
+        if (!validateMobile(user.getMobile())) {
+            throw new InvalidUserException("Invalid mobile number.");
+        }
+
+        // 8. Update user
+        dao.updateUser(user);
     }
+
 
     @Override
     public void changePassword(int userId, String oldPassword, String newPassword) {
