@@ -7,12 +7,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import com.railconnect.model.User;
 import com.railconnect.storage.DataStore;
+import com.railconnect.model.Passenger;
 
 public class UserDao {
 
     private final List<User> users = DataStore.getUsers();
-
-
+    private final List<Passenger> passengers = new ArrayList<>();
 	
 	
 	 
@@ -132,4 +132,19 @@ public class UserDao {
         users.clear();
         idGenerator.set(1001);
     }
+
+
+    public synchronized List<Passenger> findPassengersByUserId(int userId) {
+        List<Passenger> userPassengers = new ArrayList<>();
+
+        for (Passenger passenger : passengers) {
+            if (passenger.getUser() != null
+                    && passenger.getUser().getUserId() == userId) {
+                userPassengers.add(passenger);
+            }
+        }
+
+        return Collections.unmodifiableList(userPassengers);
+    }
+
 }

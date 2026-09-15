@@ -16,6 +16,7 @@ import com.railconnect.exception.UserNotFoundException;
 import com.railconnect.model.Passenger;
 import com.railconnect.model.User;
 import com.railconnect.service.UserService;
+import com.railconnect.exception.InvalidUserIdException;
 
 public class UserServiceImpl implements UserService {
 
@@ -254,8 +255,28 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<Passenger> getPassengers(int userId) {
-        // TODO Auto-generated method stub
-        return null;
+
+        // 1. Validate user ID
+        if (userId <= 0) {
+            throw new InvalidUserIdException("User ID must be greater than 0.");
+        }
+
+        // 2. Check whether user exists
+        User user = userDao.findById(userId);
+
+        if (user == null) {
+            throw new UserNotFoundException(
+                    "User not found with ID: " + userId
+            );
+        }
+
+        // 3. Retrieve passengers using UserDao
+        List<Passenger> passengers =
+                userDao.findPassengersByUserId(userId);
+
+        // 4. Return passenger list
+        // If there are no passengers, DAO returns an empty list.
+        return passengers;
     }
 
     @Override
