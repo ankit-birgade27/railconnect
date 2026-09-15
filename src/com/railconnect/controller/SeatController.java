@@ -94,7 +94,18 @@ public class SeatController {
 
         String seatId = scanner.nextLine();
 
-        // Call proper method from service
+        try {
+            Seat seat = seatService.getSeatById(seatId);
+
+            System.out.println("Seat Found Successfully!");
+            System.out.println("Seat ID: " + seat.getSeatId());
+            System.out.println("Seat Number: " + seat.getSeatNumber());
+            System.out.println("Seat Type: " + seat.getSeatType());
+            System.out.println("Status: " + seat.getStatus());
+
+        } catch (InvalidSeatIdException | SeatNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
 
