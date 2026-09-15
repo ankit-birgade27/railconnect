@@ -224,8 +224,18 @@ public class TrainController {
 
     // 3. Get All Trains
     private void getAllTrains() {
+        List<Train> trains = trainService.getAllTrains();
 
-        // Call proper method from service
+        if (trains.isEmpty()) {
+            System.out.println("No trains available.");
+            return;
+        }
+
+        System.out.println("\n========== ALL TRAINS ==========");
+
+        for (Train train : trains) {
+            System.out.println(train);
+        }
     }
 
 
