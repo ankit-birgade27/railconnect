@@ -19,9 +19,6 @@ import com.railconnect.model.Seat;
 import com.railconnect.model.Train;
 import com.railconnect.service.TrainService;
 
-
-public class TrainServiceImpl implements TrainService {
-
 public class TrainServiceImpl  implements TrainService{
 	    private TrainDao trainDao;
 
@@ -43,8 +40,7 @@ public class TrainServiceImpl  implements TrainService{
 
 	@Override
 	public List<Train> getAllTrains() {
-		// TODO Auto-generated method stub
-		return null;
+		return trainDao.findAll();
 	}
 
 	@Override
