@@ -3,6 +3,9 @@ package com.railconnect.controller;
 import java.util.List;
 import java.util.Scanner;
 
+import com.railconnect.exception.InvalidSeatIdException;
+import com.railconnect.exception.SeatAlreadyAvailableException;
+import com.railconnect.exception.SeatNotFoundException;
 import com.railconnect.model.Seat;
 import com.railconnect.service.SeatService;
 
@@ -151,7 +154,19 @@ public class SeatController {
 
         // Call proper method from service
         
-        seatService.releaseSeat(seatId);
-        System.out.println("Seat Released Suucessfully.");
+        try {
+            seatService.releaseSeat(seatId);
+
+            System.out.println("Seat Released Successfully.");
+
+        } catch (InvalidSeatIdException e) {
+            System.out.println(e.getMessage());
+
+        } catch (SeatNotFoundException e) {
+            System.out.println(e.getMessage());
+
+        } catch (SeatAlreadyAvailableException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }
