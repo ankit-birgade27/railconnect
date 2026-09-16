@@ -5,7 +5,7 @@ module railconnect {
     exports com.railconnect.service;
     exports com.railconnect.serviceimpl;
     exports com.railconnect.exception;
-    exports com.railconnect.test;
+//    exports com.railconnect.test;
     exports com.railconnect.maincontroller;
     exports com.railconnect.enums;
 }

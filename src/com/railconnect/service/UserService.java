@@ -7,8 +7,6 @@ import com.railconnect.model.User;
 
 public interface UserService {
 
-    String welcome(String msg);
-
     void registerUser(User user);
 
     boolean validateUsername(String username);

@@ -1,6 +1,7 @@
 package com.railconnect.controller;
 
 import java.util.List;
+import com.railconnect.exception.*;
 import java.util.Scanner;
 
 import com.railconnect.model.Seat;
@@ -109,7 +110,23 @@ public class SeatController {
 
         String seatNumber = scanner.nextLine();
 
-        // Call proper method from service
+        try {
+
+            Seat seat = seatService.getSeatByNumber(
+                    trainId,
+                    seatNumber
+            );
+
+            System.out.println("Seat Found Successfully!");
+            System.out.println(seat);
+
+        } catch (InvalidTrainIdException |
+                 InvalidSeatNumberException |
+                 TrainNotFoundException |
+                 SeatNotFoundException e) {
+
+            System.out.println(e.getMessage());
+        }
     }
 
 
@@ -126,6 +143,20 @@ public class SeatController {
         String seatNumber = scanner.nextLine();
 
         // Call proper method from service
+        try {
+        	boolean available = seatService.isSeatAvailable(trainId, seatNumber);
+
+            if (available) {
+                System.out.println("Seat is available.");
+            } else {
+                System.out.println("Seat is not available.");
+            }
+
+        }catch(InvalidTrainIdException | InvalidSeatNumberException | 
+        		TrainNotFoundException | SeatNotFoundException e) {
+        	System.out.println(" "+e.getMessage());
+        }
+        
     }
 
 
@@ -137,6 +168,8 @@ public class SeatController {
         String seatId = scanner.nextLine();
 
         // Call proper method from service
+        
+        
     }
 
 
@@ -148,5 +181,8 @@ public class SeatController {
         String seatId = scanner.nextLine();
 
         // Call proper method from service
+        
+        seatService.releaseSeat(seatId);
+        System.out.println("Seat Released Suucessfully.");
     }
 }

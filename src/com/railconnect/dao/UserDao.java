@@ -6,15 +6,44 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.railconnect.model.User;
+import com.railconnect.storage.DataStore;
+import com.railconnect.model.Passenger;
 
 public class UserDao {
 
-    private static final List<User> users = new ArrayList<>();
-    private static final AtomicInteger idGenerator = new AtomicInteger(1001);
+    private final List<User> users = DataStore.getUsers();
+    private final List<Passenger> passengers = new ArrayList<>();
+	
+	
+	 
+	  
+	  
+	public  void registerUser(User user) {
+			  
+	  }
+	  
+	
 
-    public void registerUser(User user) {
-        saveUser(user);
-    }
+
+	   
+	    public void updateUser(User user) {
+
+	        for (int i = 0; i < users.size(); i++) {
+
+	            if (users.get(i).getUserId() == user.getUserId()) {
+
+	                users.set(i, user);
+
+	                return;
+	            }
+	        }
+	    }  
+	  
+
+
+
+
+    private static final AtomicInteger idGenerator = new AtomicInteger(1001);
 
     public synchronized void saveUser(User user) {
         if (user == null) {
@@ -68,6 +97,7 @@ public class UserDao {
         return null;
     }
 
+
     public synchronized User findById(int userId) {
         for (User u : users) {
             if (u.getUserId() == userId) {
@@ -76,17 +106,19 @@ public class UserDao {
         }
         return null;
     }
-    public synchronized void updateUser(User user) {
-        if (user == null) {
-            return;
-        }
-        for (int i = 0; i < users.size(); i++) {
-            if (users.get(i).getUserId() == user.getUserId()) {
-                users.set(i, user);
+    
+    // to update the old password
+    public synchronized void updatePassword(int userId, String newPassword) {
+        for (User u : users) {
+            if (u.getUserId() == userId) {
+                u.setPassword(newPassword);
                 return;
             }
         }
     }
+
+
+  
 
     public synchronized List<User> findAllUsers() {
         return Collections.unmodifiableList(new ArrayList<>(users));
@@ -96,12 +128,23 @@ public class UserDao {
         return idGenerator.getAndIncrement();
     }
 
-    public String getnewMessage(String msg) {
-        return msg;
-    }
-
     public synchronized void clear() {
         users.clear();
         idGenerator.set(1001);
     }
+
+
+    public synchronized List<Passenger> findPassengersByUserId(int userId) {
+        List<Passenger> userPassengers = new ArrayList<>();
+
+        for (Passenger passenger : passengers) {
+            if (passenger.getUser() != null
+                    && passenger.getUser().getUserId() == userId) {
+                userPassengers.add(passenger);
+            }
+        }
+
+        return Collections.unmodifiableList(userPassengers);
+    }
+
 }
