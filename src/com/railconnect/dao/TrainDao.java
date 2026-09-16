@@ -42,7 +42,7 @@ public class TrainDao {
         return null;
     }
 
-    public synchronized Train findById(int trainId) {
+    public Train findById(int trainId) {
         List<Train> trains = DataStore.getTrains();
         for (Train train : trains) {
             if (train != null && train.getTrainId() == trainId) {
@@ -78,13 +78,6 @@ public class TrainDao {
     }
 
 	   
-	  public  void updateTrain(Train train) {
-		  for (int i = 0; i < trains.size(); i++) {
-			  if(trains.get(i).getTrainId()==train.getTrainId()) {
-				  trains.set(i, train);
-				  return;
-			  }
-		}
-	  }
+	 
 
 }

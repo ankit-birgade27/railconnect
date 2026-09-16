@@ -6,4 +6,8 @@ public class TrainNotFoundException extends RuntimeException{
 		
 		super(message);
 	}
+	
+	 public TrainNotFoundException(String message, Throwable cause) {
+	        super(message, cause);
+	    }
 }
