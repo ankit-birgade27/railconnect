@@ -14,8 +14,10 @@ public interface SeatService {
     Seat getSeatByNumber(int trainId, String seatNumber);
 
     boolean isSeatAvailable(int trainId, String seatNumber)
-    throws SeatNotFoundException,TrainNotFoundException,InvalidSeatNumberException,
-    InvalidTrainIdException;
+    throws SeatNotFoundException,
+           TrainNotFoundException,
+           InvalidSeatNumberException,
+           InvalidTrainIdException;
 
     void reserveSeat(String seatId);
 
