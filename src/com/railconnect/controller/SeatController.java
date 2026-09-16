@@ -110,7 +110,23 @@ public class SeatController {
 
         String seatNumber = scanner.nextLine();
 
-        // Call proper method from service
+        try {
+
+            Seat seat = seatService.getSeatByNumber(
+                    trainId,
+                    seatNumber
+            );
+
+            System.out.println("Seat Found Successfully!");
+            System.out.println(seat);
+
+        } catch (InvalidTrainIdException |
+                 InvalidSeatNumberException |
+                 TrainNotFoundException |
+                 SeatNotFoundException e) {
+
+            System.out.println(e.getMessage());
+        }
     }
 
 

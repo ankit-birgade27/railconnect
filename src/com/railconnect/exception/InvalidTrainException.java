@@ -12,11 +12,6 @@ public class InvalidTrainException extends RuntimeException {
     public InvalidTrainException(String message, Throwable cause) {
         super(message, cause);
     }
-
-public class InvalidTrainException extends Exception{
-
-	public InvalidTrainException(String message) {
-		super(message);
-	}
-
 }
+
+
