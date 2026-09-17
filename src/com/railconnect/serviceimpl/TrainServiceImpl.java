@@ -1,6 +1,7 @@
 package com.railconnect.serviceimpl;
 
 import java.util.ArrayList;
+
 import java.util.List;
 
 import java.util.regex.Pattern;
@@ -10,8 +11,10 @@ import com.railconnect.exception.*;
 
 import com.railconnect.dao.TrainDao;
 import com.railconnect.exception.DuplicateTrainNumberException;
+
 import com.railconnect.exception.InvalidTrainException;
-import com.railconnect.exception.InvalidTrainIdException;
+import com.railconnect.exception.TrainNotFoundException;
+
 import com.railconnect.exception.RouteNotFoundException;
 import com.railconnect.model.Coach;
 import com.railconnect.model.Route;
@@ -27,15 +30,26 @@ public class TrainServiceImpl  implements TrainService{
 	    }
 
 	@Override
-	public void addTrain(Train train) {
+	public Train getTrainById(int trainId) 
 		// TODO Auto-generated method stub
 		
-	}
+		 throws InvalidTrainException, TrainNotFoundException {
 
-	@Override
-	public Train getTrainById(int trainId) {
-		// TODO Auto-generated method stub
-		return null;
+			    // 1. Validate Train ID
+			    if (trainId <= 0) {
+			        throw new InvalidTrainException("Invalid Train ID");
+			    }
+
+			    // 2. Find train using DAO
+			    Train train = trainDao.findById(trainId);
+
+			    // 3. Check whether train exists
+			    if (train == null) {
+			        throw new TrainNotFoundException("Train not found with ID: " + trainId);
+			    }
+
+			    // 4. Return train
+			    return train;
 	}
 
 	@Override
@@ -94,7 +108,7 @@ public class TrainServiceImpl  implements TrainService{
 			throw new InvalidTrainException("Arrival time cannot be empty");
 			}
 		
-		trainDao.updateTrain(train);
+		
 	
 	}
 
@@ -107,7 +121,7 @@ public class TrainServiceImpl  implements TrainService{
 	@Override
 	public boolean trainExists(int trainId) {
 		if(trainId <= 0) {
-			throw new InvalidTrainIdException("Train ID must be positive.");
+			throw new InvalidTrainException("Train ID must be positive.");
 		}
 		Train train = trainDao.findById(trainId);
 		
@@ -115,7 +129,7 @@ public class TrainServiceImpl  implements TrainService{
 	}
 
 
-    private TrainDao trainDao;
+    
 
     private static final Pattern TIME_PATTERN = Pattern.compile(
             "^([01]\\d|2[0-3]):[0-5]\\d(:[0-5]\\d)?$"
@@ -123,10 +137,6 @@ public class TrainServiceImpl  implements TrainService{
 
     public TrainServiceImpl() {
         this.trainDao = new TrainDao();
-    }
-
-    public TrainServiceImpl(TrainDao trainDao) {
-        this.trainDao = trainDao;
     }
 
     @Override
@@ -226,35 +236,4 @@ public class TrainServiceImpl  implements TrainService{
         trainDao.saveTrain(train);
     }
 
-    @Override
-    public Train getTrainById(int trainId) {
-        if (trainId <= 0) {
-            throw new InvalidTrainIdException("Train ID must be positive.");
-        }
-        return trainDao.findById(trainId);
-    }
-
-    @Override
-    public List<Train> getAllTrains() {
-        return trainDao.findAll();
-    }
-
-    @Override
-    public void updateTrain(Train train) {
-        // Handled by other group
-    }
-
-    @Override
-    public void deleteTrain(int trainId) {
-        // Handled by other group
-    }
-
-    @Override
-    public boolean trainExists(int trainId) {
-        if (trainId <= 0) {
-            throw new InvalidTrainIdException("Train ID must be positive.");
-        }
-        Train train = trainDao.findById(trainId);
-        return train != null;
-    }
 }
