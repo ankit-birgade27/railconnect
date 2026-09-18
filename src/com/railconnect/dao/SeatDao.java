@@ -69,4 +69,9 @@ public class SeatDao {
 
 		    return null;
 		}
+
+	   public boolean trainExists(int trainId) {
+		// TODO Auto-generated method stub
+		return false;
+	   }
 }
