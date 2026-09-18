@@ -13,11 +13,5 @@ public class DuplicateTrainNumberException extends RuntimeException {
         super(message, cause);
     }
 
-public class DuplicateTrainNumberException extends Exception{
-
-	public DuplicateTrainNumberException(String message) {
-		
-		super(message);
-	}
 
 }

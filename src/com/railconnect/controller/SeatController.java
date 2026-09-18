@@ -120,7 +120,7 @@ public class SeatController {
             System.out.println("Seat Found Successfully!");
             System.out.println(seat);
 
-        } catch (InvalidTrainIdException |
+        } catch (InvalidTrianIdException |
                  InvalidSeatNumberException |
                  TrainNotFoundException |
                  SeatNotFoundException e) {
@@ -152,7 +152,7 @@ public class SeatController {
                 System.out.println("Seat is not available.");
             }
 
-        }catch(InvalidTrainIdException | InvalidSeatNumberException | 
+        }catch(InvalidTrianIdException | InvalidSeatNumberException | 
         		TrainNotFoundException | SeatNotFoundException e) {
         	System.out.println(" "+e.getMessage());
         }
