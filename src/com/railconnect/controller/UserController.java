@@ -148,7 +148,6 @@ public class UserController {
         scanner.nextLine();
 
 
-
         try {
 
             User user = userService.viewProfile(userId);

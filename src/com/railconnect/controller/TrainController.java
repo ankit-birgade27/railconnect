@@ -232,6 +232,8 @@ public class TrainController {
             System.out.println("Train Not Found: " + e.getMessage());
         }
     }
+    
+    
     public Train getTrainById(int trainId)
             throws InvalidTrainException, TrainNotFoundException {
         return trainService.getTrainById(trainId);
