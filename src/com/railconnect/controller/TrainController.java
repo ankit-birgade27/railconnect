@@ -68,7 +68,7 @@ public class TrainController {
                     break;
 
                 case 3:
-                    getAllTrains();
+                    displayAllTrains();
                     break;
 
                 case 4:
@@ -240,8 +240,14 @@ public class TrainController {
 
 
     // 3. Get All Trains
-    private void getAllTrains() {
-        List<Train> trains = trainService.getAllTrains();
+    public List<Train> getAllTrains() {
+    	return trainService.getAllTrains();
+
+    }
+    
+    private void displayAllTrains() {
+
+        List<Train> trains = getAllTrains();
 
         if (trains.isEmpty()) {
             System.out.println("No trains available.");

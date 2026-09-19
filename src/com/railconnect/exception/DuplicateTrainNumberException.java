@@ -12,12 +12,4 @@ public class DuplicateTrainNumberException extends RuntimeException {
     public DuplicateTrainNumberException(String message, Throwable cause) {
         super(message, cause);
     }
-
-public class DuplicateTrainNumberException extends Exception{
-
-	public DuplicateTrainNumberException(String message) {
-		
-		super(message);
-	}
-
 }
