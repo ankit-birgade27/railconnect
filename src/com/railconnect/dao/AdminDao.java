@@ -5,17 +5,14 @@ import java.util.List;
 
 import com.railconnect.model.Train;
 import com.railconnect.model.User;
+import com.railconnect.storage.DataStore;
 
 public class AdminDao {
-	
-	  private List<User> users = new ArrayList<>();
-
-	  private List<Train> trains = new ArrayList<>();
 	  
 	    // Find user by ID
 	    public User findById(int userId) {
 
-	        for (User user : users) {
+	        for (User user : DataStore.getUsers()) {
 
 	            if (user.getUserId() == userId) {
 	                return user;
@@ -28,13 +25,18 @@ public class AdminDao {
 	    // Get all users
 	    public List<User> findAllUsers() {
 
-	        return new ArrayList<>(users);
+	        return new ArrayList<>(DataStore.getUsers());
 	    }
 
 	    // Delete user by ID
 	    public void deleteUser(int userId) {
-
-	        users.removeIf(user -> user.getUserId() == userId);
+	    		List<User> users = DataStore.getUsers();	
+	    		users.removeIf(user -> user.getUserId() == userId);
+	    }
+	    
+	    
+	    public List<Train> findAllTrains(){
+	    		return new ArrayList<>(DataStore.getTrains());
 	    }
 
 	}

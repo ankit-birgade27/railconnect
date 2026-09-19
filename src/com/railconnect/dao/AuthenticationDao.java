@@ -11,7 +11,7 @@ public class AuthenticationDao {
 	    if (username == null) {
 	        return null;
 	    }
-
+	    
 	    List<User> users = DataStore.getUsers();
 
 	    for (User user : users) {
