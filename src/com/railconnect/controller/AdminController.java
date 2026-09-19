@@ -2,6 +2,7 @@ package com.railconnect.controller;
 
 import java.util.Scanner;
 
+import com.railconnect.model.User;
 import com.railconnect.service.AdminService;
 
 public class AdminController {
@@ -107,8 +108,28 @@ public class AdminController {
 
         // Take User details here
 
-        // Call proper method from service
+        System.out.print("Enter Username: ");
+        String username = scanner.nextLine();
+
+        System.out.print("Enter Email: ");
+        String email = scanner.nextLine();
+
+        System.out.print("Enter Mobile: ");
+        String mobile = scanner.nextLine();
+
+        User user = new User();
+
+        user.setUserId(userId);
+        user.setUsername(username);
+        user.setEmail(email);
+        user.setMobile(mobile);
+
+        adminService.updateUser(user);
+
+        System.out.println("User updated successfully.");
     }
+        
+    
 
     // 3. Delete User
     private void deleteUser() {
@@ -158,6 +179,7 @@ public class AdminController {
         // Take Train details here
 
         // Call proper method from service
+        
     }
 
     // 8. Delete Train
