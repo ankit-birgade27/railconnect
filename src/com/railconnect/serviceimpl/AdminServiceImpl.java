@@ -7,6 +7,7 @@ import com.railconnect.model.Train;
 import com.railconnect.model.User;
 import com.railconnect.service.AdminService;
 import com.railconnect.exception.InvalidUserIdException;
+import com.railconnect.exception.TrainDataAccessException;
 import com.railconnect.exception.UserNotFoundException;
 
 public class AdminServiceImpl implements AdminService {
@@ -85,11 +86,13 @@ public class AdminServiceImpl implements AdminService {
 		// TODO Auto-generated method stub
 		
 	}
-
+		
 	@Override
 	public List<Train> getAllTrains() {
-		// TODO Auto-generated method stub
-		return null;
+		if(adminDao.findAllTrains().isEmpty()) {
+			throw new TrainDataAccessException("No data found");
+		}
+		return adminDao.findAllTrains();
 	}
 
 }
