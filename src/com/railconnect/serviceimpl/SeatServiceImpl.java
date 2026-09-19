@@ -6,9 +6,6 @@ import com.railconnect.exception.*;
 import com.railconnect.dao.SeatDao;
 import com.railconnect.dao.TrainDao;
 import com.railconnect.enums.SeatStatus;
-import com.railconnect.exception.InvalidSeatIdException;
-import com.railconnect.exception.SeatAlreadyAvailableException;
-import com.railconnect.exception.SeatNotFoundException;
 import com.railconnect.model.Seat;
 import com.railconnect.model.Train;
 import com.railconnect.service.SeatService;
@@ -37,7 +34,7 @@ public class SeatServiceImpl implements SeatService{
 	public Seat getSeatByNumber(int trainId, String seatNumber) {
 	    // 1. Validate Train ID
 	    if (trainId <= 0) {
-	        throw new InvalidTrainIdException(
+	        throw new InvalidTrianIdException(
 	                "Train ID must be positive");
 	    }
 
@@ -75,10 +72,10 @@ public class SeatServiceImpl implements SeatService{
 	@Override
 	public boolean isSeatAvailable(int trainId, String seatNumber) 
 	throws InvalidSeatNumberException,SeatNotFoundException,
-	InvalidTrainIdException,TrainNotFoundException{
+	InvalidTrianIdException,TrainNotFoundException{
 		
 		 if (trainId <= 0) {
-		        throw new InvalidTrainIdException("Train ID must be positive");
+		        throw new InvalidTrianIdException("Train ID must be positive");
 		    }
 		 
 		 if (seatNumber == null || seatNumber.trim().isEmpty()) {
