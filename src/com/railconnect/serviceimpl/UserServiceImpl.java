@@ -233,8 +233,19 @@ public class UserServiceImpl implements UserService {
             throw new UserNotFoundException(
                     "No account found with this email.");
         }
+        // 5. Generate/reset password
+        String newPassword = " ";
 
-        // TODO Auto-generated method stub
+        // 6. Update password using UserDao
+        dao.updatePassword(user.getUserId(), newPassword);
+
+        System.out.println(
+                "Password reset successfully."
+        );
+
+        System.out.println(
+                "Your new password is: " + newPassword
+        );
 
     }
 

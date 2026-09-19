@@ -1,7 +1,9 @@
 package com.railconnect.controller;
 
+import java.util.List;
 import java.util.Scanner;
 
+import com.railconnect.model.User;
 import com.railconnect.service.AdminService;
 
 public class AdminController {
@@ -117,7 +119,16 @@ public class AdminController {
         int userId = scanner.nextInt();
         scanner.nextLine();
 
-        // Call proper method from service
+        try {
+
+            adminService.deleteUser(userId);
+
+            System.out.println("User deleted successfully.");
+
+        } catch (Exception e) {
+
+            System.out.println(e.getMessage());
+        }
     }
 
     // 4. Get User By ID
@@ -127,13 +138,41 @@ public class AdminController {
         int userId = scanner.nextInt();
         scanner.nextLine();
 
-        // Call proper method from service
+        try {
+
+            User user = adminService.getUserById(userId);
+
+            System.out.println("\n========== USER DETAILS ==========");
+            System.out.println(user);
+
+        } catch (Exception e) {
+
+            System.out.println(e.getMessage());
+        }
     }
 
     // 5. Get All Users
     private void getAllUsers() {
 
-        // Call proper method from service
+        try {
+
+            List<User> users = adminService.getAllUsers();
+
+            if (users.isEmpty()) {
+                System.out.println("No users available.");
+                return;
+            }
+
+            System.out.println("\n========== ALL USERS ==========");
+
+            for (User user : users) {
+                System.out.println(user);
+            }
+
+        } catch (Exception e) {
+
+            System.out.println(e.getMessage());
+        }
     }
 
     // 6. Add Train
