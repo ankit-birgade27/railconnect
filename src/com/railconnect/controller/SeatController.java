@@ -97,8 +97,31 @@ public class SeatController {
 
         String seatId = scanner.nextLine();
 
-        // Call proper method from service
-    }
+     
+            try {
+
+                Seat seat = seatService.getSeatById(seatId);
+
+                System.out.println();
+                System.out.println("========== SEAT DETAILS ==========");
+                System.out.println("Seat ID: " + seat.getSeatId());
+                System.out.println("Seat seatNumber: " + seat.getSeatNumber());
+                System.out.println("Seat seatType: " + seat.getSeatType());
+                System.out.println("Seat status: " + seat.getStatus());
+                System.out.println("Seat coach: " + seat.getCoach());
+
+            } catch (InvalidSeatIdException e) {
+
+                System.out.println(e.getMessage());
+
+            } catch (SeatNotFoundException e) {
+
+                System.out.println(e.getMessage());
+            }
+            
+        }
+
+    
 
 
     // 3. Get Seat By Number
