@@ -26,9 +26,23 @@ public class SeatServiceImpl implements SeatService{
 
 	@Override
 	public Seat getSeatById(String seatId) {
-		// TODO Auto-generated method stub
-		return null;
+		if (seatId == null || seatId.trim().isEmpty()) {
+	        throw new InvalidSeatIdException("Seat ID is required");
+	    }
+		seatId = seatId.trim();
+
+	   
+	    Seat seat = seatDao.findById(seatId);
+
+	    
+	    if (seat == null) {
+	        throw new SeatNotFoundException(
+	                "Seat not found with ID: " + seatId);
+	    }
+	    return seat;
 	}
+
+	
 
 	@Override
 	public Seat getSeatByNumber(int trainId, String seatNumber) {
