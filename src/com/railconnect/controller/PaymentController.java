@@ -3,6 +3,9 @@ package com.railconnect.controller;
 import java.math.BigDecimal;
 import java.util.Scanner;
 
+import com.railconnect.exception.InvalidPaymentIdException;
+import com.railconnect.exception.PaymentNotFoundException;
+import com.railconnect.model.Payment;
 import com.railconnect.service.PaymentService;
 
 public class PaymentController {
@@ -79,17 +82,26 @@ public class PaymentController {
 
         // Call proper method from service
     }
-
-
+    
     // 2. Get Payment By ID
     private void getPaymentById() {
 
         System.out.print("Enter Payment ID: ");
         String paymentId = scanner.nextLine();
-
         // Call proper method from service
+        try {
+        	Payment payment=paymentService.getPaymentById(paymentId);
+        	
+        	System.out.println("...PAYMENT DETAILS...");
+        	System.out.println(payment);
+        	
+        }catch(InvalidPaymentIdException e) {
+        	System.out.println(e.getMessage());
+        	
+        }catch(PaymentNotFoundException e) {
+        	System.out.println(e.getMessage());	
+        }
     }
-
 
     // 3. Get Payment By Booking ID
     private void getPaymentByBookingId() {

@@ -20,11 +20,10 @@ public class AdminServiceImpl implements AdminService {
 	    public AdminServiceImpl(AdminDao adminDao) {
 	        this.adminDao = adminDao;
 	    }
-
+	    
 	@Override
 	public void addUser(User user) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -42,7 +41,6 @@ public class AdminServiceImpl implements AdminService {
 
         // 3. Check whether user exists
         User existingUser = adminDao.findById(user.getUserId());
-
         if (existingUser == null) {
             throw new UserNotFoundException("User not found");
         }
@@ -51,7 +49,6 @@ public class AdminServiceImpl implements AdminService {
 
         if (user.getUsername() == null ||
             user.getUsername().trim().isEmpty()) {
-
             throw new InvalidUserException("Username is required");
         }
 
@@ -114,10 +111,8 @@ public class AdminServiceImpl implements AdminService {
         // Check duplicate mobile
         User mobileUser =
                 adminDao.findByMobile(user.getMobile());
-
         if (mobileUser != null &&
             mobileUser.getUserId() != user.getUserId()) {
-
             throw new DuplicateMobileException(
                     "Mobile already exists");
         }

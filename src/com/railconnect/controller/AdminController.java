@@ -8,7 +8,7 @@ import com.railconnect.service.AdminService;
 public class AdminController {
 
     private Scanner scanner = new Scanner(System.in);
-    
+
     private AdminService adminService;
 
     public AdminController(AdminService adminService) {
@@ -42,47 +42,47 @@ public class AdminController {
 
             switch (choice) {
 
-                case 1:
-                    addUser();
-                    break;
+            case 1:
+                addUser();
+                break;
 
-                case 2:
-                    updateUser();
-                    break;
+            case 2:
+                updateUser();
+                break;
 
-                case 3:
-                    deleteUser();
-                    break;
+            case 3:
+                deleteUser();
+                break;
 
-                case 4:
-                    getUserById();
-                    break;
+            case 4:
+                getUserById();
+                break;
 
-                case 5:
-                    getAllUsers();
-                    break;
+            case 5:
+                getAllUsers();
+                break;
 
-                case 6:
-                    addTrain();
-                    break;
+            case 6:
+                addTrain();
+                break;
 
-                case 7:
-                    updateTrain();
-                    break;
+            case 7:
+                updateTrain();
+                break;
 
-                case 8:
-                    deleteTrain();
-                    break;
+            case 8:
+                deleteTrain();
+                break;
 
-                case 9:
-                    getAllTrains();
-                    break;
+            case 9:
+                getAllTrains();
+                break;
 
-                case 10:
-                    return;
+            case 10:
+                return;
 
-                default:
-                    System.out.println("Invalid choice!");
+            default:
+                System.out.println("Invalid choice!");
             }
         }
     }
@@ -95,7 +95,6 @@ public class AdminController {
         scanner.nextLine();
 
         // Take remaining User details here
-
         // Call proper method from service
     }
 
@@ -105,8 +104,6 @@ public class AdminController {
         System.out.print("Enter User ID: ");
         int userId = scanner.nextInt();
         scanner.nextLine();
-
-        // Take User details here
 
         System.out.print("Enter Username: ");
         String username = scanner.nextLine();
@@ -128,8 +125,6 @@ public class AdminController {
 
         System.out.println("User updated successfully.");
     }
-        
-    
 
     // 3. Delete User
     private void deleteUser() {
@@ -165,7 +160,6 @@ public class AdminController {
         scanner.nextLine();
 
         // Take remaining Train details here
-
         // Call proper method from service
     }
 
@@ -177,9 +171,7 @@ public class AdminController {
         scanner.nextLine();
 
         // Take Train details here
-
         // Call proper method from service
-        
     }
 
     // 8. Delete Train
