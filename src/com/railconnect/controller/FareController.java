@@ -3,12 +3,16 @@ package com.railconnect.controller;
 import java.math.BigDecimal;
 import java.util.Scanner;
 
+import com.railconnect.exception.InvalidPassengerCountException;
+import com.railconnect.exception.InvalidStationException;
+import com.railconnect.exception.InvalidTrainIdException;
+import com.railconnect.exception.TrainNotFoundException;
 import com.railconnect.service.FareService;
 
 public class FareController {
-     
+
     private Scanner scanner = new Scanner(System.in);
-    
+
     private FareService fareService;
 
     public FareController(FareService fareService) {
@@ -80,7 +84,42 @@ public class FareController {
         scanner.nextLine();
 
         // Call proper method from service
-    }
+ 
+            try {
+
+                BigDecimal totalFare = fareService.calculateFare(
+                        trainId,
+                        source,
+                        destination,
+                        numberOfPassengers
+                );
+
+                System.out.println();
+                System.out.println("Fare Calculation Successful!");
+                System.out.println("Train ID           : " + trainId);
+                System.out.println("Source             : " + source);
+                System.out.println("Destination        : " + destination);
+                System.out.println("Number of Passengers: " + numberOfPassengers);
+                System.out.println("Total Fare         : " + totalFare);
+
+            } catch (InvalidTrainIdException e) {
+
+                System.out.println("Invalid Train ID: " + e.getMessage());
+
+            } catch (TrainNotFoundException e) {
+
+                System.out.println("Train Not Found: " + e.getMessage());
+
+            } catch (InvalidStationException e) {
+
+                System.out.println("Invalid Station: " + e.getMessage());
+
+            } catch (InvalidPassengerCountException e) {
+
+                System.out.println("Invalid Passenger Count: " + e.getMessage());
+            }
+        }
+
 
 
     // 2. Calculate Passenger Fare

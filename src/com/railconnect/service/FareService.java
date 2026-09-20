@@ -18,3 +18,6 @@ public interface FareService {
     BigDecimal getTotalFare(BigDecimal fare,
                             int numberOfPassengers);
 }
+
+
+
