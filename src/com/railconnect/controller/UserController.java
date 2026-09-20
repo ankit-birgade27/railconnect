@@ -1,5 +1,6 @@
 package com.railconnect.controller;
 
+import java.util.List;
 import java.util.Scanner;
 
 import com.railconnect.exception.DuplicateEmailException;
@@ -7,6 +8,8 @@ import com.railconnect.exception.DuplicateMobileException;
 import com.railconnect.exception.DuplicateUsernameException;
 import com.railconnect.exception.InvalidPasswordException;
 import com.railconnect.exception.InvalidUserException;
+import com.railconnect.exception.InvalidUserIdException;
+import com.railconnect.exception.UserNotFoundException;
 import com.railconnect.model.Passenger;
 import com.railconnect.model.User;
 import com.railconnect.service.UserService;
@@ -324,12 +327,35 @@ public class UserController {
         // Handled by Student 4
     }
 
-    // 9. Get Passengers
-    private void getPassengers() {
+    private void getPassengers() {  
+
         System.out.print("Enter User ID: ");
         int userId = scanner.nextInt();
         scanner.nextLine();
-        // Handled by Student 5
+
+        try {
+            List<Passenger> passengers = userService.getPassengers(userId);
+
+            if (passengers.isEmpty()) {
+                System.out.println("No passengers found for User ID: " + userId);
+                return;
+            }
+
+            System.out.println();
+            System.out.println("================================");
+            System.out.println("       PASSENGER LIST");
+            System.out.println("================================");
+
+            for (Passenger passenger : passengers) {
+                System.out.println(passenger);
+            }
+
+        } catch (InvalidUserIdException e) {
+            System.out.println("Invalid User ID: " + e.getMessage());
+
+        } catch (UserNotFoundException e) {
+            System.out.println("User Not Found: " + e.getMessage());
+        }
     }
 
     // 10. Booking History

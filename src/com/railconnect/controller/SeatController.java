@@ -7,9 +7,7 @@ import java.util.Scanner;
 
 import com.railconnect.dao.SeatDao;
 import com.railconnect.dao.TrainDao;
-import com.railconnect.exception.InvalidSeatIdException;
-import com.railconnect.exception.InvalidTrainIdException;
-import com.railconnect.exception.TrainNotFoundException;
+import com.railconnect.exception.*;
 import com.railconnect.model.Coach;
 import com.railconnect.model.Route;
 import com.railconnect.model.Seat;
@@ -165,11 +163,13 @@ public class SeatController {
 
         try {
             Seat seat = seatService.getSeatByNumber(trainId, seatNumber);
-            if (seat != null) {
-                System.out.println("Seat Details: " + seat);
-            } else {
-                System.out.println("Seat not found.");
-            }
+            System.out.println("Seat Found Successfully!");
+            System.out.println(seat);
+        } catch (InvalidTrianIdException |
+                 InvalidSeatNumberException |
+                 TrainNotFoundException |
+                 SeatNotFoundException e) {
+            System.out.println(e.getMessage());
         } catch (Exception e) {
             System.err.println("[Error]: " + e.getMessage());
         }
@@ -190,7 +190,16 @@ public class SeatController {
 
         try {
             boolean available = seatService.isSeatAvailable(trainId, seatNumber);
-            System.out.println("Seat " + seatNumber + " is available: " + available);
+            if (available) {
+                System.out.println("Seat is available.");
+            } else {
+                System.out.println("Seat is not available.");
+            }
+        } catch (InvalidTrianIdException |
+                 InvalidSeatNumberException |
+                 TrainNotFoundException |
+                 SeatNotFoundException e) {
+            System.out.println(" " + e.getMessage());
         } catch (Exception e) {
             System.err.println("[Error]: " + e.getMessage());
         }
@@ -223,6 +232,10 @@ public class SeatController {
         try {
             seatService.releaseSeat(seatId);
             System.out.println("Seat Released Successfully.");
+        } catch (InvalidSeatIdException |
+                 SeatNotFoundException |
+                 SeatAlreadyAvailableException e) {
+            System.out.println(e.getMessage());
         } catch (Exception e) {
             System.err.println("[Error]: " + e.getMessage());
         }

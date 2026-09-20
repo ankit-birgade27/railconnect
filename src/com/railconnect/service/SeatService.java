@@ -1,6 +1,7 @@
 package com.railconnect.service;
 
 import java.util.List;
+import com.railconnect.exception.*;
 
 import com.railconnect.model.Seat;
 
@@ -12,7 +13,11 @@ public interface SeatService {
 
     Seat getSeatByNumber(int trainId, String seatNumber);
 
-    boolean isSeatAvailable(int trainId, String seatNumber);
+    boolean isSeatAvailable(int trainId, String seatNumber)
+    throws SeatNotFoundException,
+           TrainNotFoundException,
+           InvalidSeatNumberException,
+           InvalidTrianIdException;
 
     void reserveSeat(String seatId);
 

@@ -6,12 +6,9 @@ import java.util.List;
 import com.railconnect.dao.SeatDao;
 import com.railconnect.dao.TrainDao;
 import com.railconnect.enums.SeatStatus;
-import com.railconnect.exception.InvalidSeatIdException;
-import com.railconnect.exception.InvalidTrainIdException;
-import com.railconnect.exception.SeatAlreadyAvailableException;
-import com.railconnect.exception.SeatNotFoundException;
-import com.railconnect.exception.TrainNotFoundException;
+import com.railconnect.exception.*;
 import com.railconnect.model.Seat;
+import com.railconnect.model.Train;
 import com.railconnect.service.SeatService;
 
 public class SeatServiceImpl implements SeatService {
@@ -91,30 +88,59 @@ public class SeatServiceImpl implements SeatService {
 
     @Override
     public Seat getSeatByNumber(int trainId, String seatNumber) {
+        // 1. Validate Train ID
         if (trainId <= 0) {
-            throw new InvalidTrainIdException("Train ID must be positive.");
+            throw new InvalidTrianIdException("Train ID must be positive");
         }
-        if (!seatDao.trainExists(trainId)) {
+
+        // 2. Validate Seat Number
+        if (seatNumber == null || seatNumber.trim().isEmpty()) {
+            throw new InvalidSeatNumberException("Seat number cannot be empty");
+        }
+
+        // 3. Check whether train exists
+        Train train = (trainDao != null) ? trainDao.findById(trainId) : new TrainDao().findById(trainId);
+        if (train == null) {
             throw new TrainNotFoundException("Train not found with ID: " + trainId);
         }
-        if (seatNumber == null || seatNumber.trim().isEmpty()) {
-            throw new InvalidSeatIdException("Seat number cannot be null or blank.");
+
+        // 4. Search seat
+        Seat seat = seatDao.findByTrainIdAndSeatNumber(trainId, seatNumber.trim());
+
+        // 5. Check whether seat exists
+        if (seat == null) {
+            throw new SeatNotFoundException("Seat not found with number: " + seatNumber);
         }
-        List<Seat> seats = seatDao.findByTrainId(trainId);
-        for (Seat seat : seats) {
-            if (seat != null && seat.getSeatNumber() != null &&
-                    seat.getSeatNumber().trim().equalsIgnoreCase(seatNumber.trim())) {
-                return seat;
-            }
-        }
-        return null;
+
+        // 6. Return seat
+        return seat;
     }
 
     @Override
-    public boolean isSeatAvailable(int trainId, String seatNumber) {
-        Seat seat = getSeatByNumber(trainId, seatNumber);
-        return seat != null && seat.getStatus() != null &&
-                SeatStatus.AVAILABLE.name().equalsIgnoreCase(seat.getStatus().trim());
+    public boolean isSeatAvailable(int trainId, String seatNumber)
+            throws InvalidSeatNumberException, SeatNotFoundException,
+            InvalidTrianIdException, TrainNotFoundException {
+
+        if (trainId <= 0) {
+            throw new InvalidTrianIdException("Train ID must be positive");
+        }
+
+        if (seatNumber == null || seatNumber.trim().isEmpty()) {
+            throw new InvalidSeatNumberException("Seat number cannot be empty");
+        }
+
+        boolean exists = (trainDao != null && trainDao.findById(trainId) != null) ||
+                         (seatDao != null && seatDao.trainExists(trainId));
+        if (!exists) {
+            throw new TrainNotFoundException("Train not found with this ID: " + trainId);
+        }
+
+        Seat seat = seatDao.findByTrainIdAndSeatNumber(trainId, seatNumber);
+        if (seat == null) {
+            throw new SeatNotFoundException("Seat not found");
+        }
+
+        return "AVAILABLE".equalsIgnoreCase(seat.getStatus());
     }
 
     @Override
@@ -137,7 +163,6 @@ public class SeatServiceImpl implements SeatService {
         }
 
         Seat seat = seatDao.findById(seatId);
-
         if (seat == null) {
             throw new SeatNotFoundException("Seat not found");
         }

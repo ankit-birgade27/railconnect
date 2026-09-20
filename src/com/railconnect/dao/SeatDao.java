@@ -1,7 +1,6 @@
 package com.railconnect.dao;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -114,6 +113,26 @@ public class SeatDao {
         return findTrainById(trainId) != null;
     }
 
+    public synchronized Seat findByTrainIdAndSeatNumber(int trainId, String seatNumber) {
+        Train train = findTrainById(trainId);
+        if (train == null || train.getCoaches() == null || seatNumber == null) {
+            return null;
+        }
+        String trimmedSeatNum = seatNumber.trim();
+        for (Coach coach : train.getCoaches()) {
+            if (coach == null || coach.getSeats() == null) {
+                continue;
+            }
+            for (Seat seat : coach.getSeats()) {
+                if (seat != null && seat.getSeatNumber() != null &&
+                        seat.getSeatNumber().trim().equalsIgnoreCase(trimmedSeatNum)) {
+                    return seat;
+                }
+            }
+        }
+        return null;
+    }
+
     /**
      * Retrieves all seats belonging to the requested train.
      */
@@ -211,3 +230,4 @@ public class SeatDao {
         DataStore.getSeats().clear();
     }
 }
+
