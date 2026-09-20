@@ -1,20 +1,29 @@
 package com.railconnect.controller;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import com.railconnect.exception.*;
 import java.util.Scanner;
 
-import com.railconnect.exception.InvalidSeatIdException;
-import com.railconnect.exception.SeatAlreadyAvailableException;
-import com.railconnect.exception.SeatNotFoundException;
+import com.railconnect.dao.SeatDao;
+import com.railconnect.dao.TrainDao;
+import com.railconnect.exception.*;
+import com.railconnect.model.Coach;
+import com.railconnect.model.Route;
 import com.railconnect.model.Seat;
+import com.railconnect.model.Train;
 import com.railconnect.service.SeatService;
+import com.railconnect.serviceimpl.SeatServiceImpl;
 
 public class SeatController {
 
     private SeatService seatService;
 
     private Scanner scanner = new Scanner(System.in);
+
+    public SeatController() {
+        this.seatService = new SeatServiceImpl(new SeatDao());
+    }
 
     public SeatController(SeatService seatService) {
         this.seatService = seatService;
@@ -78,7 +87,7 @@ public class SeatController {
     }
 
 
-    // 1. Get Available Seats
+    // 1. Get Available Seats (CLI Menu Handler)
     private void getAvailableSeats() {
 
         System.out.print("Enter Train ID: ");
@@ -86,7 +95,41 @@ public class SeatController {
         int trainId = scanner.nextInt();
         scanner.nextLine();
 
-        // Call proper method from service
+        getAvailableSeats(trainId);
+    }
+
+
+    /**
+     * Group 1 Controller Method: Retrieves all available seats for a train with user-facing feedback.
+     */
+    public List<Seat> getAvailableSeats(int trainId) {
+        try {
+            List<Seat> seats = seatService.getAvailableSeats(trainId);
+            System.out.println("Available Seats for Train ID " + trainId + ":");
+            if (seats == null || seats.isEmpty()) {
+                System.out.println("  No available seats found for this train.");
+            } else {
+                System.out.println("  Total Available Seats: " + seats.size());
+                for (Seat seat : seats) {
+                    String coachNum = (seat.getCoach() != null) ? seat.getCoach().getCoachNumber() : "N/A";
+                    System.out.println("  [Seat ID: " + seat.getSeatId() + 
+                                       ", Seat No: " + seat.getSeatNumber() + 
+                                       ", Type: " + seat.getSeatType() + 
+                                       ", Status: " + seat.getStatus() + 
+                                       ", Coach: " + coachNum + "]");
+                }
+            }
+            return seats;
+        } catch (InvalidTrainIdException e) {
+            System.err.println("[Error - Invalid Train ID]: " + e.getMessage());
+            return Collections.emptyList();
+        } catch (TrainNotFoundException e) {
+            System.err.println("[Error - Train Not Found]: " + e.getMessage());
+            return Collections.emptyList();
+        } catch (Exception e) {
+            System.err.println("[Error - Unexpected]: " + e.getMessage());
+            return Collections.emptyList();
+        }
     }
 
 
@@ -97,7 +140,12 @@ public class SeatController {
 
         String seatId = scanner.nextLine();
 
-        // Call proper method from service
+        try {
+            Seat seat = seatService.getSeatById(seatId);
+            System.out.println("Seat Details: " + seat);
+        } catch (Exception e) {
+            System.err.println("[Error]: " + e.getMessage());
+        }
     }
 
 
@@ -114,21 +162,16 @@ public class SeatController {
         String seatNumber = scanner.nextLine();
 
         try {
-
-            Seat seat = seatService.getSeatByNumber(
-                    trainId,
-                    seatNumber
-            );
-
+            Seat seat = seatService.getSeatByNumber(trainId, seatNumber);
             System.out.println("Seat Found Successfully!");
             System.out.println(seat);
-
         } catch (InvalidTrianIdException |
                  InvalidSeatNumberException |
                  TrainNotFoundException |
                  SeatNotFoundException e) {
-
             System.out.println(e.getMessage());
+        } catch (Exception e) {
+            System.err.println("[Error]: " + e.getMessage());
         }
     }
 
@@ -145,21 +188,21 @@ public class SeatController {
 
         String seatNumber = scanner.nextLine();
 
-        // Call proper method from service
         try {
-        	boolean available = seatService.isSeatAvailable(trainId, seatNumber);
-
+            boolean available = seatService.isSeatAvailable(trainId, seatNumber);
             if (available) {
                 System.out.println("Seat is available.");
             } else {
                 System.out.println("Seat is not available.");
             }
-
-        }catch(InvalidTrianIdException | InvalidSeatNumberException | 
-        		TrainNotFoundException | SeatNotFoundException e) {
-        	System.out.println(" "+e.getMessage());
+        } catch (InvalidTrianIdException |
+                 InvalidSeatNumberException |
+                 TrainNotFoundException |
+                 SeatNotFoundException e) {
+            System.out.println(" " + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("[Error]: " + e.getMessage());
         }
-        
     }
 
 
@@ -170,9 +213,12 @@ public class SeatController {
 
         String seatId = scanner.nextLine();
 
-        // Call proper method from service
-        
-        
+        try {
+            seatService.reserveSeat(seatId);
+            System.out.println("Seat Reserved Successfully.");
+        } catch (Exception e) {
+            System.err.println("[Error]: " + e.getMessage());
+        }
     }
 
 
@@ -183,21 +229,85 @@ public class SeatController {
 
         String seatId = scanner.nextLine();
 
-        // Call proper method from service
-        
         try {
             seatService.releaseSeat(seatId);
-
             System.out.println("Seat Released Successfully.");
-
-        } catch (InvalidSeatIdException e) {
+        } catch (InvalidSeatIdException |
+                 SeatNotFoundException |
+                 SeatAlreadyAvailableException e) {
             System.out.println(e.getMessage());
-
-        } catch (SeatNotFoundException e) {
-            System.out.println(e.getMessage());
-
-        } catch (SeatAlreadyAvailableException e) {
-            System.out.println(e.getMessage());
+        } catch (Exception e) {
+            System.err.println("[Error]: " + e.getMessage());
         }
+    }
+
+    public static void main(String[] args) {
+        TrainDao trainDao = new TrainDao();
+        trainDao.clear();
+
+        SeatDao seatDao = new SeatDao();
+        seatDao.clear();
+
+        SeatService seatService = new SeatServiceImpl(seatDao);
+        SeatController controller = new SeatController(seatService);
+
+        System.out.println("=================================================================");
+        System.out.println("     RailConnect - Group 1: Get Available Seats Demonstration    ");
+        System.out.println("=================================================================\n");
+
+        // Set up sample train with coaches and seats
+        Coach c1 = new Coach(1, "C1", "AC Chair Car", 3, new ArrayList<>());
+        Seat s1 = new Seat("ST101", "1A", "WINDOW", "AVAILABLE", c1);
+        Seat s2 = new Seat("ST102", "1B", "AISLE", "RESERVED", c1);
+        Seat s3 = new Seat("ST103", "1C", "MIDDLE", "AVAILABLE", c1);
+        c1.getSeats().add(s1);
+        c1.getSeats().add(s2);
+        c1.getSeats().add(s3);
+
+        List<Coach> coaches = new ArrayList<>();
+        coaches.add(c1);
+
+        Train train = new Train(101, "12127", "Intercity Express",
+                new Route("R101", "Mumbai - Pune", new ArrayList<>(), 192.0),
+                "06:40", "09:57", coaches);
+        trainDao.saveTrain(train);
+
+        // 1. Successful Retrieval (Available seats only)
+        System.out.println("--- Test 1: Successful Retrieval for Train 101 ---");
+        List<Seat> available = controller.getAvailableSeats(101);
+        System.out.println("Returned count: " + available.size());
+        System.out.println();
+
+        // 2. Negative Train ID Validation
+        System.out.println("--- Test 2: Invalid Train ID (-5) ---");
+        controller.getAvailableSeats(-5);
+        System.out.println();
+
+        // 3. Zero Train ID Validation
+        System.out.println("--- Test 3: Invalid Train ID (0) ---");
+        controller.getAvailableSeats(0);
+        System.out.println();
+
+        // 4. Non-Existent Train ID Check
+        System.out.println("--- Test 4: Train Not Found (999) ---");
+        controller.getAvailableSeats(999);
+        System.out.println();
+
+        // 5. Train with All Reserved Seats
+        System.out.println("--- Test 5: Train with All Seats Reserved ---");
+        Coach c2 = new Coach(2, "C2", "Sleeper", 1, new ArrayList<>());
+        c2.getSeats().add(new Seat("ST201", "2A", "LOWER", "RESERVED", c2));
+        List<Coach> coaches2 = new ArrayList<>();
+        coaches2.add(c2);
+        Train train2 = new Train(102, "12951", "Rajdhani Express",
+                new Route("R102", "Delhi - Mumbai", new ArrayList<>(), 1384.0),
+                "16:55", "08:35", coaches2);
+        trainDao.saveTrain(train2);
+        controller.getAvailableSeats(102);
+        System.out.println();
+
+        System.out.println("=================================================================");
+        System.out.println("               Demonstration Completed Successfully              ");
+        System.out.println("=================================================================");
     }
 }

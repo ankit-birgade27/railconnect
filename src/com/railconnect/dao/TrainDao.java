@@ -10,7 +10,6 @@ import com.railconnect.storage.DataStore;
 
 public class TrainDao {
 
-
     private static final AtomicInteger idGenerator = new AtomicInteger(101);
 
     public synchronized void saveTrain(Train train) {
@@ -42,7 +41,7 @@ public class TrainDao {
         return null;
     }
 
-    public Train findById(int trainId) {
+    public synchronized Train findById(int trainId) {
         List<Train> trains = DataStore.getTrains();
         for (Train train : trains) {
             if (train != null && train.getTrainId() == trainId) {
@@ -77,7 +76,9 @@ public class TrainDao {
         idGenerator.set(101);
     }
 
-	   
-	 
-
+    public synchronized boolean existsById(int trainId) {
+        return findById(trainId) != null;
+    }
 }
+
+
