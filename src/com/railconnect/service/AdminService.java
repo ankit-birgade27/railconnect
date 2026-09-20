@@ -8,7 +8,13 @@ import com.railconnect.model.User;
 public interface AdminService {
 
     void addUser(User user);
-
+    
+    boolean validateUsername(String username);
+    boolean validateEmail(String email);
+    boolean validateMobile(String mobile);
+    boolean validatePassword(String password);
+    
+    
     void updateUser(User user);
 
     void deleteUser(int userId);

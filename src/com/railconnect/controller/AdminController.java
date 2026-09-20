@@ -1,4 +1,5 @@
 package com.railconnect.controller;
+import com.railconnect.model.User;
 
 import java.util.Scanner;
 
@@ -89,13 +90,42 @@ public class AdminController {
     // 1. Add User
     private void addUser() {
 
+        System.out.println();
+
+        System.out.println("===== Add User =====");
+
         System.out.print("Enter User ID: ");
         int userId = scanner.nextInt();
         scanner.nextLine();
 
-        // Take remaining User details here
+        System.out.print("Enter Username: ");
+        String username = scanner.nextLine();
 
-        // Call proper method from service
+        System.out.print("Enter Email: ");
+        String email = scanner.nextLine();
+
+        System.out.print("Enter Mobile Number: ");
+        String mobile = scanner.nextLine();
+
+        System.out.print("Enter Password: ");
+        String password = scanner.nextLine();
+
+        System.out.print("Enter Role: ");
+        String role = scanner.nextLine();
+
+        User user = new User();
+
+        user.setUserId(userId);
+        user.setUsername(username);
+        user.setEmail(email);
+        user.setMobile(mobile);
+        user.setPassword(password);
+        user.setRole(role);
+
+        adminService.addUser(user);
+
+        System.out.println("User added successfully.");
+        System.out.println("User ID: " + user.getUserId());
     }
 
     // 2. Update User
