@@ -1,8 +1,12 @@
 package com.railconnect.controller;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Scanner;
 
+import com.railconnect.exception.InvalidStationException;
+import com.railconnect.exception.TrainNotFoundException;
+import com.railconnect.model.Train;
 import com.railconnect.service.SearchService;
 
 public class SearchController {
@@ -82,10 +86,53 @@ public class SearchController {
     // 2. Get Trains By Source
     private void getTrainsBySource() {
 
-        System.out.print("Enter Source: ");
+        System.out.print("Enter Source Station: ");
+
         String source = scanner.nextLine();
 
-        // Call proper method from service
+        getTrainsBySource(source);
+    }
+    public void getTrainsBySource(String source)
+    {
+        try
+        {
+            List<Train> trains =
+                    searchService.getTrainsBySource(source);
+
+            System.out.println();
+            System.out.println("Trains from source: " + source);
+            System.out.println("--------------------------------");
+
+            for (Train train : trains)
+            {
+                System.out.println("Train ID   : "
+                        + train.getTrainId());
+
+                System.out.println("Train No   : "
+                        + train.getTrainNumber());
+
+                System.out.println("Train Name : "
+                        + train.getTrainName());
+
+                System.out.println("Departure  : "
+                        + train.getDepartureTime());
+
+                System.out.println("Arrival    : "
+                        + train.getArrivalTime());
+
+                System.out.println("--------------------------------");
+            }
+        }
+        catch (InvalidStationException e) {
+
+            System.out.println(
+                    "Invalid Station: " + e.getMessage());
+
+        } catch (TrainNotFoundException e) {
+
+            System.out.println(
+                    "Train Not Found: " + e.getMessage());
+        }
     }
 
 
