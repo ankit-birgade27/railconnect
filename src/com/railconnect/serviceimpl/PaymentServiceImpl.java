@@ -27,21 +27,22 @@ public class PaymentServiceImpl  implements PaymentService {
 		throws InvalidPaymentIdException , PaymentNotFoundException{
 		// TODO Auto-generated method stub
 		 // 1. Check Payment ID
-		if(paymentId==null || paymentId.trim().isEmpty()) {
-			throw new InvalidPaymentIdException(
-				"Payment ID cannot be null or empty");
-		}
-			// 2. Search Payment using DAO
-	        Payment payment = paymentDao.findById(paymentId.trim());
+		if (paymentId == null || paymentId.trim().isEmpty()) {
 
-	        // 3. Check whether Payment exists
-	        if (payment == null) {
-	            throw new PaymentNotFoundException(
-	                    "Payment not found with ID: " + paymentId);
-	        }
-	        // 4. Return matching Payment
-	        return payment;
-	    }
+            throw new InvalidPaymentIdException(
+                    "Payment ID cannot be null or empty");
+        }
+        // 2. Search Payment using DAO
+        Payment payment = paymentDao.findById(paymentId.trim());
+
+        // 3. Check whether Payment exists
+        if (payment == null) {
+            throw new PaymentNotFoundException(
+                    "Payment not found with ID: " + paymentId);
+        }
+        // 4. Return matching Payment
+        return payment;
+    }
 
 	@Override
 	public Payment getPaymentByBookingId(String bookingId) {

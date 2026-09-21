@@ -13,5 +13,4 @@ public class DuplicateTrainNumberException extends RuntimeException {
         super(message, cause);
     }
 
-
 }
