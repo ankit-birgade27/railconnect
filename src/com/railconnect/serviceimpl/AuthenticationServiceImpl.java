@@ -23,39 +23,79 @@ public class AuthenticationServiceImpl  implements AuthenticationService{
 
 	@Override
 	public User login(String username, String password) {
-		User user = authenticationDao.findByUsername(username);
-		if(user == null) {
-			throw new UserNotFoundException("User not found.");
-		}
-		
-		if(user.isAccountLocked()) {
-			throw new AccountLockedException("User account is locked");
-		}
-		
-		if(!user.getPassword().equals(password)) {
-			int attempts = user.getLoginAttempts()+1;
-			authenticationDao.updateLoginAttempts(user.getUserId(), attempts);
-			
-			if(attempts>=3) {
-				authenticationDao.updateAccountStatus(user.getUserId(), true);
-				
-				throw new AccountLockedException(
-                        "Account locked due to 3 failed login attempts."
-                );
-			}
-			
-			throw new InvalidCredentialsException(
-                    "Invalid username or password."
-            );
-		}
-		
-		authenticationDao.updateLoginAttempts(user.getUserId(), 0);
-		
-		Session session = new Session(UUID.randomUUID().toString(), user, LocalDateTime.now(), null, true);
-		
-		authenticationDao.saveSession(session);
-		
-		return user;
+
+	    if (username == null || username.trim().isEmpty()) {
+
+	        throw new InvalidCredentialsException(
+	                "Username is required."
+	        );
+	    }
+
+	    if (password == null || password.isEmpty()) {
+
+	        throw new InvalidCredentialsException(
+	                "Password is required."
+	        );
+	    }
+
+	    User user = authenticationDao.findByUsername(username.trim());
+
+	    if (user == null) {
+
+	        throw new UserNotFoundException(
+	                "User not found."
+	        );
+	    }
+
+	    if (user.isAccountLocked()) {
+
+	        throw new AccountLockedException(
+	                "User account is locked."
+	        );
+	    }
+
+	    if (!user.getPassword().equals(password)) {
+
+	        int attempts = user.getLoginAttempts() + 1;
+
+	        authenticationDao.updateLoginAttempts(
+	                user.getUserId(),
+	                attempts
+	        );
+
+	        if (attempts >= 3) {
+
+	            authenticationDao.updateAccountStatus(
+	                    user.getUserId(),
+	                    true
+	            );
+
+	            throw new AccountLockedException(
+	                    "Account locked due to 3 failed login attempts."
+	            );
+	        }
+
+	        throw new InvalidCredentialsException(
+	                "Invalid username or password."
+	        );
+	    }
+
+	    authenticationDao.updateLoginAttempts(
+	            user.getUserId(),
+	            0
+	    );
+
+	    Session session = new Session(
+	            UUID.randomUUID().toString(),
+	            user,
+	            LocalDateTime.now(),
+	            null,
+	            true
+	    );
+
+	    authenticationDao.saveSession(session);
+
+	    return user;
 	}
 
 	@Override

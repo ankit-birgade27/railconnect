@@ -2,9 +2,19 @@ package com.railconnect.controller;
 
 import java.util.Scanner;
 
+import com.railconnect.exception.AccountLockedException;
+import com.railconnect.exception.InvalidCredentialsException;
+import com.railconnect.exception.UserNotFoundException;
+import com.railconnect.model.User;
+import com.railconnect.service.AuthenticationService;
+import com.railconnect.serviceimpl.AuthenticationServiceImpl;
+
 public class AuthenticationController {
 
     private Scanner scanner = new Scanner(System.in);
+
+    private AuthenticationService authenticationService =
+            new AuthenticationServiceImpl();
 
     public void start() {
 
@@ -81,9 +91,33 @@ public class AuthenticationController {
 
         System.out.print("Enter Password: ");
         String password = scanner.nextLine();
-
+        
         // Call proper method from service
-    }
+            try {
+
+             
+			
+				User user = authenticationService.login(username, password);
+
+                System.out.println();
+                System.out.println("Login Successful!");
+                System.out.println("User ID  : " + user.getUserId());
+                System.out.println("Username : " + user.getUsername());
+                System.out.println("Role     : " + user.getRole());
+
+            } catch (UserNotFoundException e) {
+
+                System.out.println("User Not Found: " + e.getMessage());
+
+            } catch (AccountLockedException e) {
+
+                System.out.println("Account Locked: " + e.getMessage());
+
+            } catch (InvalidCredentialsException e) {
+
+                System.out.println("Login Failed: " + e.getMessage());
+            }
+        }
 
     // 2. Logout
     private void logout() {

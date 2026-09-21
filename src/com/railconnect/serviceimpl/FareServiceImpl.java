@@ -3,6 +3,7 @@ package com.railconnect.serviceimpl;
 import java.math.BigDecimal;
 
 import com.railconnect.dao.FareDao;
+import com.railconnect.model.Fare;
 import com.railconnect.service.FareService;
 
 public class FareServiceImpl  implements FareService{
@@ -15,15 +16,21 @@ public class FareServiceImpl  implements FareService{
 
 	@Override
 	public BigDecimal calculateFare(int trainId, String source, String destination, int numberOfPassengers) {
-		// TODO Auto-generated method stub
-		return null;
+		BigDecimal fare = calculatePassengerFare(
+	   trainId,source,destination);
+	        return fare.multiply(BigDecimal.valueOf(numberOfPassengers)
+	        );
 	}
 
 	@Override
 	public BigDecimal calculatePassengerFare(int trainId, String source, String destination) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		Fare fare = fareDao.findFare(trainId,source,destination);
+        if (fare == null) {
+            return BigDecimal.ZERO;
+        }
+
+        return fare.getBaseFare();
+    }
 
 	@Override
 	public BigDecimal getBaseFare(int trainId) {
