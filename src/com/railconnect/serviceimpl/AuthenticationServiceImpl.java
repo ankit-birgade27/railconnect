@@ -72,14 +72,26 @@ public class AuthenticationServiceImpl  implements AuthenticationService{
 
 	@Override
 	public boolean validateUsername(String username) {
-		// TODO Auto-generated method stub
-		return false;
+		  if (username == null || username.trim().isEmpty()) {
+		        return false;
+		    }
+
+		    username = username.trim();
+		
+		return username.matches("^[a-zA-Z0-9_]{3,20}$");
 	}
 
 	@Override
 	public boolean validateEmail(String email) {
-		// TODO Auto-generated method stub
-		return false;
+		 if (email == null || email.trim().isEmpty()) {
+		        return false;
+		    }
+
+		    email = email.trim();
+		    
+		return email.matches(
+		        "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$"
+			    );
 	}
 
 	@Override
