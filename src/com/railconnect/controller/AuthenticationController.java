@@ -2,9 +2,14 @@ package com.railconnect.controller;
 
 import java.util.Scanner;
 
+import com.railconnect.service.AuthenticationService;
+import com.railconnect.serviceimpl.AuthenticationServiceImpl;
+
 public class AuthenticationController {
 
     private Scanner scanner = new Scanner(System.in);
+    private AuthenticationService authenticationService =
+            new AuthenticationServiceImpl();
 
     public void start() {
 
@@ -101,7 +106,13 @@ public class AuthenticationController {
         System.out.print("Enter Username: ");
         String username = scanner.nextLine();
 
-        // Call proper method from service
+        boolean valid = authenticationService.validateUsername(username);
+
+        if (valid) {
+            System.out.println("Username is valid.");
+        } else {
+            System.out.println("Invalid username.");
+        }
     }
 
     // 4. Validate Email
@@ -110,7 +121,13 @@ public class AuthenticationController {
         System.out.print("Enter Email: ");
         String email = scanner.nextLine();
 
-        // Call proper method from service
+        boolean valid = authenticationService.validateEmail(email);
+
+        if (valid) {
+            System.out.println("Email is valid.");
+        } else {
+            System.out.println("Invalid email.");
+        }
     }
 
     // 5. Validate Mobile

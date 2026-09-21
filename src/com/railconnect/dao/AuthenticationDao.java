@@ -35,6 +35,24 @@ public class AuthenticationDao {
 		return null;
 	}
 	
+	public User findByEmail(String email) {
+
+	    if (email == null) {
+	        return null;
+	    }
+
+	    List<User> users = DataStore.getUsers();
+
+	    for (User user : users) {
+	        if (user.getEmail() != null &&
+	            user.getEmail().equalsIgnoreCase(email.trim())) {
+	            return user;
+	        }
+	    }
+
+	    return null;
+	}
+	
 	
 	public void updateLoginAttempts(int userId, int attempts) {
 		User user = findById(userId);
