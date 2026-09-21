@@ -107,7 +107,9 @@ public class FareController {
         int trainId = scanner.nextInt();
         scanner.nextLine();
 
-        // Call proper method from service
+        BigDecimal baseFare = fareService.getBaseFare(trainId);
+
+        System.out.println("Base Fare: " + baseFare);
     }
 
 

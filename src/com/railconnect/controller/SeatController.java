@@ -3,10 +3,6 @@ package com.railconnect.controller;
 import java.util.List;
 import com.railconnect.exception.*;
 import java.util.Scanner;
-
-import com.railconnect.exception.InvalidSeatIdException;
-import com.railconnect.exception.SeatAlreadyAvailableException;
-import com.railconnect.exception.SeatNotFoundException;
 import com.railconnect.model.Seat;
 import com.railconnect.service.SeatService;
 
@@ -123,7 +119,7 @@ public class SeatController {
             System.out.println("Seat Found Successfully!");
             System.out.println(seat);
 
-        } catch (InvalidTrianIdException |
+        } catch (InvalidTrainIdException |
                  InvalidSeatNumberException |
                  TrainNotFoundException |
                  SeatNotFoundException e) {
@@ -155,7 +151,7 @@ public class SeatController {
                 System.out.println("Seat is not available.");
             }
 
-        }catch(InvalidTrianIdException | InvalidSeatNumberException | 
+        }catch(InvalidTrainIdException | InvalidSeatNumberException | 
         		TrainNotFoundException | SeatNotFoundException e) {
         	System.out.println(" "+e.getMessage());
         }
