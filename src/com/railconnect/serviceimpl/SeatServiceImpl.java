@@ -34,7 +34,7 @@ public class SeatServiceImpl implements SeatService{
 	public Seat getSeatByNumber(int trainId, String seatNumber) {
 	    // 1. Validate Train ID
 	    if (trainId <= 0) {
-	        throw new InvalidTrianIdException(
+	        throw new InvalidTrainIdException(
 	                "Train ID must be positive");
 	    }
 
@@ -72,10 +72,10 @@ public class SeatServiceImpl implements SeatService{
 	@Override
 	public boolean isSeatAvailable(int trainId, String seatNumber) 
 	throws InvalidSeatNumberException,SeatNotFoundException,
-	InvalidTrianIdException,TrainNotFoundException{
+	InvalidTrainIdException,TrainNotFoundException{
 		
 		 if (trainId <= 0) {
-		        throw new InvalidTrianIdException("Train ID must be positive");
+		        throw new InvalidTrainIdException("Train ID must be positive");
 		    }
 		 
 		 if (seatNumber == null || seatNumber.trim().isEmpty()) {

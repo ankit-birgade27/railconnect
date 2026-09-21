@@ -17,7 +17,7 @@ public interface SeatService {
     throws SeatNotFoundException,
            TrainNotFoundException,
            InvalidSeatNumberException,
-           InvalidTrianIdException;
+           InvalidTrainIdException;
 
     void reserveSeat(String seatId);
 
