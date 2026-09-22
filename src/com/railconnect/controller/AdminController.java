@@ -3,6 +3,8 @@ package com.railconnect.controller;
 import java.util.List;
 import java.util.Scanner;
 
+import com.railconnect.exception.TrainDataAccessException;
+import com.railconnect.model.Train;
 import com.railconnect.model.User;
 import com.railconnect.service.AdminService;
 
@@ -211,7 +213,14 @@ public class AdminController {
 
     // 9. Get All Trains
     private void getAllTrains() {
-
-        // Call proper method from service
-    }
+	    	try {
+	    		List<Train> trains = adminService.getAllTrains();
+	    		System.out.println("===== All Trains ====="); 
+	    		for (Train train : trains) { 
+	    			System.out.println(train); 
+	    		}
+			} catch (TrainDataAccessException e) {
+				System.out.println(e.getMessage());
+			}
+	}
 }
